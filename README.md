@@ -3,8 +3,9 @@
 ## Installation
 
 1. `git clone git@github.com:hy-chou/kukudy.git`
-2. `npm install`
-3. Fill in the strings in `.env`, e.g.
+2. `cd kukudy`
+3. `npm install`
+4. Create a `.env`:
 
 ```.env
 CLIENT_ID="vje46w2kigic6v7q7fsf8qo38fyr95"
