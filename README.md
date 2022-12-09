@@ -3,7 +3,7 @@
 ## Installation
 
 1. `$ git clone git@github.com:hy-chou/kukudy.git`
-2. `$ cd kukudy`
+2. `$ cd kukudy/`
 3. `$ npm install`
 4. Create a `.env`:
 
@@ -26,6 +26,20 @@ CLIENT_ID_GQL="kimne78kx3ncx6brgo4mv6wki5h1ko"
 
 You will see the hostnames in the file inside `edgs/`.
 You will see the user logins of the top 100 channels in the file inside `ulgs/`, and more information about the channels in the file inside `strm/`.
+
+### Schedule a probe
+
+1. Get the absolute path to `kukudy/` by running `$ echo $PWD`.
+2. Get the name of the user by running `$ echo $USER`.
+3. Create a cron file by running `$ sudo vim /etc/cron.d/kukudy`, and write the following lines.
+
+```cron!
+DIR_K=/ABS/PATH/TO/KUKUDY
+
+31 17 09 12 * USER bash ${DIR_K}/scripts/book.sh ${DIR_K} ${DIR_K}/pg 100 3
+```
+
+By doing so, you have scheduled a 100-channel 3-round probe at 17:31, December 9th, and the data will be stored inside `kukudy/pg/`.
 
 ## Handling errors
 
