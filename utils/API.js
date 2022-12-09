@@ -12,33 +12,12 @@ const kaxios = axios.create({
 });
 
 kaxios.interceptors.response.use(
-  async (response) => {
-    const t2 = getTS();
-    const ts2H = t2.slice(0, 13);
-    const { type, t1 } = response.config.kukudy;
-    const rtt = Date.parse(t2) - Date.parse(t1);
-
-    await writeData(
-      `./logs/rtts/${ts2H}.tsv`,
-      `${t1}\t${rtt / 1000}\t${type}\n`,
-    );
-    await writeData(
-      `./logs/hdrs/${ts2H}/${type}.json.tsv`,
-      `${t1}\t${JSON.stringify(response.headers)}\n`,
-    );
-
-    return response;
-  },
+  async (response) => response,
   async (error) => {
     const t2 = getTS();
     const ts2H = t2.slice(0, 13);
     const { type, t1 } = error.config.kukudy;
-    const rtt = Date.parse(t2) - Date.parse(t1);
 
-    await writeData(
-      `./logs/rtts/${ts2H}.tsv`,
-      `${t1}\t${rtt / 1000}\t${type}\t${error.code} ${error.message}\n`,
-    );
     await writeData(
       `./errs/${ts2H}.tsv`,
       `${t1}\t${type}\t${error.code}\t${error.message}\n`,
