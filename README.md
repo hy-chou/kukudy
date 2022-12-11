@@ -38,48 +38,48 @@ strm/  ulgs/
 
 It seems like there are two directories. Let's check out `ulgs/` first.
 
-#### ULGS
+#### ULGS/
 
 There is a `.txt` file inside `ulgs/`. The filename is the UTC time of the probe. This file contains 100 user logins which belong to the top 100 live channels.
 
-To see the file content, run `$ cat FILENAME`.
+To print the file, run `$ cat FILE`.
 
 The user logins are listed in descending order of viewer count. That is, the first channel has the most viewer of all live channels.
 
 Is there more information about these channels? Let's move on to `strm/`.
 
-#### STRM
+#### STRM/
 
 There is a `.json.txt` file inside `strm/`. The filename is also the UTC time of the probe. This file contains the raw response from [Twitch API](https://dev.twitch.tv/docs/api/reference#get-streams), including two sections, data and pagination. The extra information of the channels is in the data section.
 
-To see the extra information about the first channel, run `$ cat FILENAME | jq '.data[0]'`. 
+To see the extra information about the first channel, run `$ cat FILE | jq '.data[0]'`.
 
 ### 2. Video edges
 
-After the first probe, you have what it takes to find out the video edges serving these channels. Go back to the `playground` directory and run the following command:
+After the first probe, you have what it takes to find out the video edges serving these channels. Go back to the `playground/` and run the following command:
 
 ```shell!
 $ node ../updateEdges.js
 ```
 
-Let's see what's new in the `playground`.
+Let's see what's new inside `playground/`.
 
 ```shell!
 $ ls -F
 edgs/  strm/  ulgs/
 ```
 
-It seems like there is one more directory called `edgs`. Let's check it out.
+It seems like there is a new directory called `edgs/`. Let's check it out.
 
-#### EDGS
+#### EDGS/
 
 There is a `.tsv` file inside `edgs/`. The filename is also a UTC timestamp.
 
-To see the file content, run `$ cat FILENAME`.
+To print the file, run `$ cat FILE`.
 
 As you can see, there are three things in every line, a UTC timestamp, a hostname, and a user login.
 
-To see only the hostnames, run `$ cat FILENAME | cut -f 2`. To count the hostnames, run `$ cat FILENAME | cut -f 2 | sort | uniq -c | sort -gr`.
+To see only the hostnames, run `$ cat FILE | cut -f 2`. To count the hostnames, run `$ cat FILE | cut -f 2 | sort | uniq -c | sort -gr`.
 
 As you can tell, there are channels sharing an edge.
 
@@ -91,13 +91,15 @@ Yes.
 
 Let's try to probe the top 200 channels for 3 times. Before the probe, make sure you know the absolute path to `kukudy/`. If not, run `$ echo $PWD` inside `kukudy/`.
 
-Now, run the following command:
+Now, remove the `playground/` by `rm -r playground/`, and then run the following command:
 
 ```shell!
-$ bash scripts/book.sh /ABS/PATH/TO/kukudy /ABS/PATH/TO/kukudy/playground 200 3
+$ bash scripts/book.sh /ABS/PATH/TO/kukudy playground 200 3
 ```
 
-You will find three new files in `ulgs/`, three new files in `strm/`, and three new files in `edgs/`.
+When the jobs is done, you will see three files in `ulgs/`, three files in `strm/`, and three files in `edgs/`.
+
+For more information on shell scripts, run `$ man bash`.
 
 ### 4. Schedule a probe with cron
 
@@ -107,17 +109,27 @@ Yes.
 
 Let's try to schedule a 1000-channel, 3-round probe at midnight.
 
-Before the probe, make sure you know the absolute path to `kukudy/` and the user name of the mbox you are using. If not, run `$ echo $PWD ` inside `kukudy/` and `$ echo $USER`.
+Before the probe, make sure you know the absolute path to `kukudy/` and the user name of the mbox you are using. If not, run `$ echo $PWD` inside `kukudy/` and `$ echo $USER`.
 
-Now, create a cron file by running `$ sudo vim /etc/cron.d/kukudy`, and write the following lines.
+Again, remove the `playground/` by `$ rm -r playground/`, create a cron file by running `$ sudo vim /etc/cron.d/kukudy`, and write the following lines.
 
 ```cron!
 DIR_K=/ABS/PATH/TO/KUKUDY
 
-59 23 * * * USER bash ${DIR_K}/scripts/book.sh ${DIR_K} ${DIR_K}/playground 1000 3
+# .---------------- minute (0 - 59)
+# |  .------------- hour (0 - 23)
+# |  |  .---------- day of month (1 - 31)
+# |  |  |  .------- month (1 - 12)
+# |  |  |  |  .---- day of week (0 - 6) (Sunday=0 or 7)
+# |  |  |  |  |
+# m h dom mon dow user command
+
+59 23 * * * USER bash ${DIR_K}/scripts/book.sh ${DIR_K} playground 1000 3
 ```
 
 By doing so, you schedule a 1000-channel 3-round probe every single night at 23:59 (local time).
+
+For more information on the syntax of cron files, run `$ man 5 crontab`.
 
 ### 5. Probe via VPN
 
@@ -127,8 +139,8 @@ By doing so, you schedule a 1000-channel 3-round probe every single night at 23:
 
 ### Request failed with status code 401
 
-* You get 401 when the access token expires.
-* To get a new token, use the following command. You can find the `CLIENT_ID` and `CLIENT_SECRET` in the `.env` file.
+- You get 401 when the access token expires.
+- To get a new token, use the following command. You can find the `CLIENT_ID` and `CLIENT_SECRET` in the `.env` file.
 
 ```shell!
 $ curl -X POST 'https://id.twitch.tv/oauth2/token' \
@@ -137,7 +149,7 @@ $ curl -X POST 'https://id.twitch.tv/oauth2/token' \
        -F 'client_secret=<CLIENT_SECRET goes here>'
 ```
 
-* The reply will be in the json format.
+- The reply will be in the json format.
 
 ```json!
 {
@@ -147,6 +159,5 @@ $ curl -X POST 'https://id.twitch.tv/oauth2/token' \
 }
 ```
 
-* Replace the access token in the `.env` file with the new one.
-* An access token lasts about two months.
-
+- Replace the access token in the `.env` file with the new one.
+- An access token lasts about two months.
