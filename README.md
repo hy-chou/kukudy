@@ -2,7 +2,7 @@
 
 ## Installation
 
-1. `$ git clone git@github.com:hy-chou/kukudy.git`
+1. `$ git clone https://github.com/hy-chou/kukudy.git`
 2. `$ cd kukudy/`
 3. `$ npm install`
 4. Create a `.env` file inside `kukudy/` with the following content:
@@ -52,7 +52,7 @@ Is there more information about these channels? Let's move on to `strm/`.
 
 There is a `.json.txt` file inside `strm/`. The filename is also the UTC time of the probe. This file contains the raw response from [Twitch API](https://dev.twitch.tv/docs/api/reference#get-streams), including two sections, data and pagination. The extra information of the channels is in the data section.
 
-To see the extra information about the first channel, run `$ cat FILENAME | jq .data[0]`. 
+To see the extra information about the first channel, run `$ cat FILENAME | jq '.data[0]'`. 
 
 ### 2. Video edges
 
