@@ -1,5 +1,9 @@
 # kukudy
 
+## Prerequisites
+
+- [Node.js](https://nodejs.org/)
+
 ## Installation
 
 1. `$ git clone https://github.com/hy-chou/kukudy.git`
