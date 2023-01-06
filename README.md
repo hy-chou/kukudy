@@ -2,7 +2,8 @@
 
 ## Prerequisites
 
-- [Node.js](https://nodejs.org/)
+- `node` and `npm`
+- `openvpn`
 
 ## Installation
 
@@ -137,7 +138,41 @@ For more information on the syntax of cron files, run `$ man 5 crontab`.
 
 ### 5. Probe via VPN
 
-> Coming soon...
+Since CDN is designed to get close to end users, it does not feel right to restrict the view. It is time to broaden your horizons.
+
+Let's use a VPN. Make sure you have `openvpn` installed on your machine.
+
+In this example, you will use the `openvpn` daemon under UDP protocol to access the VPN service provided by NordVPN.
+
+#### nordvpn/
+
+Create a new directory named `nordvpn` inside the root directory of kukudy, go inside, and run the following commands to download the latest server list:
+
+```shell
+$ wget https://downloads.nordcdn.com/configs/archives/servers/ovpn.zip
+$ unzip ovpn.zip
+```
+
+It seems like there are two directories inflated, `ovpn_tcp` and `ovpn_udp`. Let's check out `ovpn_udp/`.
+
+#### nordvpn/ovpn_udp/
+
+There are thousands of `.ovpn` files, each represents a server you can connect to, and each of the file names consists of a country code, an index, followed by `.nordvpn.com.udp.ovpn`.
+
+For more information about the content of `.ovpn` files, run `$ man openvpn`.
+
+#### authentication
+
+You need one last thing to connect to NordVPN's server: the authentication codes.
+
+Create a file named `auth.txt` inside `nordvpn/`. Open a browser and log in to nordvpn.com, find the Service credentials section, copy Username and Password, and paste them in separate lines in the file. It should look something like this:
+
+```auth.txt
+fjpLphPudtnCP9wzfP44sr54
+eC4lqppwjdkZnM9V0MxpppZv
+```
+
+> Under construction...
 
 ## Errors
 
