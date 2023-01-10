@@ -10,7 +10,7 @@
 1. `$ git clone https://github.com/hy-chou/kukudy.git`
 2. `$ cd kukudy/`
 3. `$ npm install`
-4. Create a `.env` file inside `kukudy/` with the following content:
+4. Create a `.env` file with the following content:
 
 ```.env
 CLIENT_ID="vje46w2kigic6v7q7fsf8qo38fyr95"
@@ -136,15 +136,13 @@ By doing so, you schedule a 1000-channel 3-round probe every single night at 23:
 
 For more information on the syntax of cron files, run `$ man 5 crontab`.
 
-### 5. Probe via VPN
+## VPN guide
 
-Since CDN is designed to get close to end users, it does not feel right to restrict the view. It is time to broaden your horizons.
-
-Let's use a VPN. Make sure you have `openvpn` installed on your machine.
+Since CDN is designed to get close to end users, it does not feel right to stay at Taipei. It is time to go out and see the world -- with the help of a VPN.
 
 In this example, you will use the `openvpn` daemon under UDP protocol to access the VPN service provided by NordVPN.
 
-#### nordvpn/
+### 1. Update config files
 
 Create a new directory named `nordvpn` inside the root directory of kukudy, go inside, and run the following commands to download the latest server list:
 
@@ -153,26 +151,46 @@ $ wget https://downloads.nordcdn.com/configs/archives/servers/ovpn.zip
 $ unzip ovpn.zip
 ```
 
-It seems like there are two directories inflated, `ovpn_tcp` and `ovpn_udp`. Let's check out `ovpn_udp/`.
-
-#### nordvpn/ovpn_udp/
-
-There are thousands of `.ovpn` files, each represents a server you can connect to, and each of the file names consists of a country code, an index, followed by `.nordvpn.com.udp.ovpn`.
+Each `.ovpn` file inside `nordvpn/ovpn_udp/` represents a server you can connect to. Each file name consists of a country code and an index number, followed by `.nordvpn.com.udp.ovpn`.
 
 For more information about the content of `.ovpn` files, run `$ man openvpn`.
 
-#### authentication
+### 2. Authentication
 
 You need one last thing to connect to NordVPN's server: the authentication codes.
 
-Create a file named `auth.txt` inside `nordvpn/`. Open a browser and log in to nordvpn.com, find the Service credentials section, copy Username and Password, and paste them in separate lines in the file. It should look something like this:
+Create a file named `auth.txt` inside `nordvpn/`. Open a browser and log in to nordvpn.com, find the Service credentials section, copy Username and Password, and paste them in separate lines in `auth.txt`. It should look something like this:
 
 ```auth.txt
 fjpLphPudtnCP9wzfP44sr54
 eC4lqppwjdkZnM9V0MxpppZv
 ```
 
-> Under construction...
+### 3. Connect
+
+Run the follwing command:
+
+```bash
+$ sudo openvpn --config nordvpn/ovpn_udp/tw168.nordvpn.com.udp.ovpn --auth-user-pass nordvpn/auth.txt
+[sudo] password for nslab-m00:
+...
+```
+
+When you see the message "Initialization Sequence Completed", congratulations! You are connected to the tw168 server!
+
+To kill the connection, press `control + c` on your keyboard.
+
+In order to run the program in background, add the option `--daemon`.
+
+### P.S.
+
+If you are using ssh to access mbox A, and the connection breaks after the mbox connects to the VPN, ssh to mbox A via mbox B and run these commands:
+
+```shell
+$ sudo ip rule add table 128 from NS.LAB.IP.MBOXA
+$ sudo ip route add table 128 default via NS.LAB.IP.254
+$ sudo ip route add table 128 to NS.LAB.IP.0/24 dev enp2s0
+```
 
 ## Errors
 
