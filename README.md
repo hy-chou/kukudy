@@ -28,7 +28,7 @@ This tutorial gives basic instructions for the first-time probers to get started
 
 After installing kukudy, create a new directory named `playground` inside the root directory of kukudy, and go inside it. Next, run the following command:
 
-```shell
+```bash
 node ../updateStreams.js 100
 ```
 
@@ -36,7 +36,7 @@ Congratulations! You have done your first probe!
 
 Let's see the data you just collected.
 
-```shell
+```bash
 ls -F
 ```
 
@@ -62,13 +62,13 @@ To see the extra information about the first channel, run `cat FILE | jq '.data[
 
 After the first probe, you have what it takes to find out the video edges serving these channels. Go back to the `playground/` and run the following command:
 
-```shell
+```bash
 node ../updateEdges.js
 ```
 
 Let's see what's new inside `playground/`.
 
-```shell
+```bash
 ls -F
 ```
 
@@ -96,7 +96,7 @@ Let's try to probe the top 200 channels for 3 times. Before the probe, make sure
 
 Now, remove the `playground/` by `rm -r playground/`, and then run the following command:
 
-```shell!
+```bash!
 bash scripts/book.sh /ABS/PATH/TO/kukudy playground 200 3
 ```
 
@@ -144,7 +144,7 @@ In this example, you will use the `openvpn` daemon under UDP protocol to access 
 
 Create a new directory named `nordvpn` inside the root directory of kukudy, go inside, and run the following commands to download the latest server list:
 
-```shell
+```bash
 wget https://downloads.nordcdn.com/configs/archives/servers/ovpn.zip
 unzip ovpn.zip
 ```
@@ -168,7 +168,7 @@ eC4lqppwjdkZnM9V0MxpppZv
 
 Run the follwing command:
 
-```shell
+```bash
 sudo openvpn --config nordvpn/ovpn_udp/tw168.nordvpn.com.udp.ovpn --auth-user-pass nordvpn/auth.txt
 [sudo] password for nslab-m00:
 ...
@@ -184,7 +184,7 @@ In order to run the program in background, add the option `--daemon`.
 
 If you are using ssh to access mbox A, and the connection breaks after the mbox connects to the VPN, ssh to mbox A via mbox B and run these commands:
 
-```shell
+```bash
 sudo ip rule add table 128 from NS.LAB.IP.MBOXA
 sudo ip route add table 128 default via NS.LAB.IP.254
 sudo ip route add table 128 to NS.LAB.IP.0/24 dev enp2s0
@@ -196,7 +196,7 @@ sudo ip route add table 128 to NS.LAB.IP.0/24 dev enp2s0
 
 You get error code 401 when the access token expires. To get a new token, run the following command.
 
-```shell
+```bash
 curl -X POST 'https://id.twitch.tv/oauth2/token' \
        -F 'grant_type=client_credentials' \
        -F 'client_id=<CLIENT_ID goes here>' \
