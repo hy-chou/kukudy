@@ -13,9 +13,9 @@
 4. Create a `.env` file with the following content:
 
 ```.env
-CLIENT_ID="vje46w2kigic6v7q7fsf8qo38fyr95"
-# CLIENT_SECRET="kf9vc5rnm89t71o20ax31t84wkanbz"
-ACCESS_TOKEN="jmisglktaqh44h2eabposxqpwdycul" # 2022-09-11
+CLIENT_ID="q5tfahmk1wwd5f7hi1jef3fmd3s0f4"
+CLIENT_SECRET="ctylihpd07ik133uxeue644y3hcrpc"
+ACCESS_TOKEN="fe4lgy6mtrah3s45vaesmh0thc0egx"
 
 CLIENT_ID_GQL="kimne78kx3ncx6brgo4mv6wki5h1ko"
 ```
@@ -169,9 +169,8 @@ eC4lqppwjdkZnM9V0MxpppZv
 Run the follwing command:
 
 ```bash
-sudo openvpn --config nordvpn/ovpn_udp/tw168.nordvpn.com.udp.ovpn --auth-user-pass nordvpn/auth.txt
-[sudo] password for nslab-m00:
-...
+sudo openvpn --config nordvpn/ovpn_udp/tw168.nordvpn.com.udp.ovpn \
+             --auth-user-pass nordvpn/auth.txt
 ```
 
 When you see the message "Initialization Sequence Completed", congratulations! You are connected to the tw168 server!
@@ -198,9 +197,9 @@ You get error code 401 when the access token expires. To get a new token, run th
 
 ```bash
 curl -X POST 'https://id.twitch.tv/oauth2/token' \
-       -F 'grant_type=client_credentials' \
-       -F 'client_id=<CLIENT_ID goes here>' \
-       -F 'client_secret=<CLIENT_SECRET goes here>'
+     -F 'grant_type=client_credentials' \
+     -F 'client_id=<CLIENT_ID goes here>' \
+     -F 'client_secret=<CLIENT_SECRET goes here>'
 ```
 
 You can find `CLIENT_ID` and `CLIENT_SECRET` in `.env`.
@@ -209,9 +208,9 @@ The reply is in the json format.
 
 ```json
 {
-	"access_token": "ntulee10lvwd19u69rt4f4lo2gm8vg",
-	"expires_in": 4764969,
-	"token_type": "bearer"
+  "access_token": "0vbuo8rvancxeuvon7k975jf66b5sq",
+  "expires_in": 4533330,
+  "token_type": "bearer"
 }
 ```
 
