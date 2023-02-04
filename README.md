@@ -127,26 +127,21 @@ bash book.sh TARGET_DIR CHANNEL_COUNT ROUND_COUNT
 
 book.sh collects at least CHANNEL_COUNT channels for ROUND_COUNT rounds and stores the data inside `kukudy/TARGET_DIR/`.
 
-For example, to collect 1000 channels for three times and store the data inside `kukudy/playground`, run
+For example, to collect 1000 channels for three times and store the data inside `kukudy/playground/`, run
 
 ```bash
 bash book.sh playground 1000 3
 ```
 
-### 4. Schedule a probe with cron
+## Cron guide
 
-Staying up late is tiring. Is it possible to probe when you are sleeping?
+`cron` is a daemon to execute scheduled commands. We can use `cron` to schedule probes.
 
-Yes.
+Create a cron file named `kukudy` inside `/etc/cron.d/` with the following content.
 
-Let's try to schedule a 1000-channel, 3-round probe at midnight.
-
-Before the probe, make sure you know the absolute path to `kukudy/` and the user name of the mbox you are using. If not, run `echo $PWD` inside `kukudy/` and `echo $USER`.
-
-Again, remove the `playground/` by `rm -r playground/`, create a cron file by running `sudo vim /etc/cron.d/kukudy`, and write the following lines.
-
-```cron!
-DIR_K=/ABS/PATH/TO/KUKUDY
+```cron
+PATH=...
+DIR_K=...
 
 # .---------------- minute (0 - 59)
 # |  .------------- hour (0 - 23)
@@ -156,10 +151,16 @@ DIR_K=/ABS/PATH/TO/KUKUDY
 # |  |  |  |  |
 # m h dom mon dow user command
 
-59 23 * * * USER bash ${DIR_K}/scripts/book.sh ${DIR_K} playground 1000 3
+14 03 * * * USER bash ${DIR_K}/scripts/book.sh ${DIR_K} playground 100 1
 ```
 
-By doing so, you schedule a 1000-channel 3-round probe every single night at 23:59 (local time).
+> Set the PATH variable to the string you see running `echo $PATH`.
+
+> Set the DIR_K variable to the absolute path to the `kukudy` directory, i.e. what you see running `pwd` inside `kukudy/`.
+
+> Replace USER with your user name, i.e. the string you see running `echo $USER`.
+
+By doing so, book.sh is scheduled to run every day at 03:14 (local time).
 
 For more information on the syntax of cron files, run `man 5 crontab`.
 
