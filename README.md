@@ -80,42 +80,38 @@ The list is stored in two formats inside two directories, `ulgs/` and `strm/`.
 #### ULGS/
 
 Inside `ulgs/` are `.txt` files.
-Each filename is the start time of the probe in UTC.
+
+Each filename is the time `updateStreams.js` starts running in UTC.
+
 Each line is a user login, namely the name of a channel.
 
 #### STRM/
 
 Inside `strm/` are `.json.txt` files.
-Each filename is the start time of the probe in UTC.
+
+Each filename is the time `updateStreams.js` starts running in UTC.
+
 Each line is the raw response from the Get Streams API.
 
-### 2. Video edges
-
-After the first probe, you have what it takes to find out the video edges serving these channels. Go back to the `playground/` and run the following command:
+### updateEdges.js
 
 ```bash
 node ../updateEdges.js
 ```
 
-Let's see what's new inside `playground/`.
+The `updateEdges.js` script reads the latest stream list inside `ulgs/` to get the hostnames of the edge servers distributing the streams in the list.
 
-```bash
-ls -F
-```
-
-It seems like there is a new directory called `edgs/`. Let's check it out.
+The hostnames are stored inside the `edgs/` directory.
 
 #### EDGS/
 
-There is a `.tsv` file inside `edgs/`. The filename is also a UTC timestamp.
+Inside `edgs/` are `.tsv` files.
 
-To print the file, run `cat FILE`.
+Each filename is the time `updateEdges.js` starts running in UTC.
 
-As you can see, there are three things in every line, a UTC timestamp, a hostname, and a user login.
+Each line has three items, a timestamp, a response, and a user login. The response is either the hostname of the edge server hosting the stream of the channel with the corresponding user login, or an error message.
 
-To see only the hostnames, run `cat FILE | cut -f 2`. To count the hostnames, run `cat FILE | cut -f 2 | sort | uniq -c | sort -gr`.
-
-As you can tell, there are channels sharing an edge.
+## Advanced guide
 
 ### 3. Probe faster with a shell script
 
