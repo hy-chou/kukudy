@@ -6,12 +6,39 @@ const {
 } = require('./utils/utils');
 
 const getVideoEdgeHostname = (userLogin) => KAPI.reqPlaybackAccessToken(userLogin)
-  .then((res) => res.data.data.streamPlaybackAccessToken)
+  .then(async (res) => {
+    const ts = getTS();
+    const strHeaders = JSON.stringify(res.headers);
+    const strData = JSON.stringify(res.data);
+    await writeData(
+      `./logs/dump/${ts.slice(0, 13)}.tsv`,
+      `${ts}\t${userLogin}\treqPAT\t${strHeaders}\t${strData}\n`,
+    );
+    return res.data.data.streamPlaybackAccessToken;
+  })
   .then((sPAToken) => KAPI.reqUsherM3U8(sPAToken, userLogin))
-  .then((res) => res.data)
+  .then(async (res) => {
+    const ts = getTS();
+    const strHeaders = JSON.stringify(res.headers);
+    const strData = JSON.stringify(res.data);
+    await writeData(
+      `./logs/dump/${ts.slice(0, 13)}.tsv`,
+      `${ts}\t${userLogin}\treqUsher\t${strHeaders}\t${strData}\n`,
+    );
+    return res.data;
+  })
   .then((usherM3U8) => usherM3U8.split('\n').find((line) => line[0] !== '#'))
   .then((weaverURL) => KAPI.reqGet(weaverURL))
-  .then((res) => res.data)
+  .then(async (res) => {
+    const ts = getTS();
+    const strHeaders = JSON.stringify(res.headers);
+    const strData = JSON.stringify(res.data);
+    await writeData(
+      `./logs/dump/${ts.slice(0, 13)}.tsv`,
+      `${ts}\t${userLogin}\treqWeaver\t${strHeaders}\t${strData}\n`,
+    );
+    return res.data;
+  })
   .then((weaverM3U8) => weaverM3U8.split('\n').find((line) => line[0] !== '#'))
   .then((edgeURL) => url2hostname(edgeURL))
   .catch((err) => err.message);
