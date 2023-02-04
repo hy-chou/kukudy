@@ -113,12 +113,6 @@ Each filename is the time `updateEdges.js` starts running in UTC.
 
 Each line has three items, a timestamp, a response, and a user login. The response is either the hostname of the edge server hosting the stream of the channel with the corresponding user login, or an error message.
 
-## Advanced guide
-
-This tutorial, designed for advanced kukudy users, provides descriptions of the scripts inside `kukudy/scripts/`.
-
-Let's go!
-
 ### 3. book.sh
 
 ```bash
@@ -151,7 +145,7 @@ DIR_K=...
 # |  |  |  |  |
 # m h dom mon dow user command
 
-14 03 * * * USER bash ${DIR_K}/scripts/book.sh ${DIR_K} playground 100 1
+14 03 * * * USER bash ${DIR_K}/scripts/book.sh playground 100 1
 ```
 
 > Set the PATH variable to the string you see running `echo $PATH`.
