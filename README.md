@@ -2,7 +2,7 @@
 
 ## Prerequisites
 
-- `node` and `npm`
+- Node.js 18
 - `openvpn`
 
 ## Installation
