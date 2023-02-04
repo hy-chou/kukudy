@@ -10,7 +10,10 @@
 1. `git clone https://github.com/hy-chou/kukudy.git`
 2. `cd kukudy/`
 3. `npm install`
-4. Create a `.env` file with the following content:
+
+## The .env file
+
+Kukudy uses Twitch API to interact with Twitch. Create a `.env` file inside the `kukudy/` directory with the following content:
 
 ```.env
 CLIENT_ID="q5tfahmk1wwd5f7hi1jef3fmd3s0f4"
@@ -19,6 +22,39 @@ ACCESS_TOKEN="fe4lgy6mtrah3s45vaesmh0thc0egx"
 
 CLIENT_ID_GQL="kimne78kx3ncx6brgo4mv6wki5h1ko"
 ```
+
+The lines above are example credentials, except for the last line. So, let's get your own credentials.
+
+### Client ID and Client Secret
+
+Sign up for a Twitch account, log in and go to [Twitch Developers' Console](https://dev.twitch.tv/console). Click on *Register Your Application* in the *Application* section, fill out the form and click *Create*. You should see your application in the *Application* section. Click on *Manage* and you should see your Client ID and Client Secret.
+
+Replace the Client ID and Client Secret in the `.env` file with yours.
+
+### Access Token
+
+As specified in [Twitch Developers' Document](https://dev.twitch.tv/docs/authentication/getting-tokens-oauth/#client-credentials-grant-flow), to get an access token, run the following command.
+
+```bash
+curl -X POST 'https://id.twitch.tv/oauth2/token' \
+     -F 'grant_type=client_credentials' \
+     -F 'client_id=<CLIENT_ID goes here>' \
+     -F 'client_secret=<CLIENT_SECRET goes here>'
+```
+
+The reply is in the json format.
+
+```json
+{
+  "access_token": "0vbuo8rvancxeuvon7k975jf66b5sq",
+  "expires_in": 4533330,
+  "token_type": "bearer"
+}
+```
+
+Replace the Access Token in `.env` file with yours.
+
+Note that an access token expires in about two months, and if you do not get a new one, every request to Twitch API would return an HTTP error code 401. We recommend getting a new one every month.
 
 ## Quick start guide
 
