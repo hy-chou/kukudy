@@ -181,6 +181,8 @@ unzip ovpn.zip
 
 Each `.ovpn` file inside `nordvpn/ovpn_udp/` represents a server you can connect to. Each file name consists of a country code and an index number, followed by `.nordvpn.com.udp.ovpn`.
 
+NordVPN updates their servers once in a while. Make sure you have the latest server list or you will not be able to connect to the new servers.
+
 For more information about the content of `.ovpn` files, run `man openvpn`.
 
 ### 2. Authentication
@@ -218,34 +220,3 @@ sudo ip rule add table 128 from NS.LAB.IP.MBOXA
 sudo ip route add table 128 default via NS.LAB.IP.254
 sudo ip route add table 128 to NS.LAB.IP.0/24 dev enp2s0
 ```
-
-## Routines
-
-### Update the access token every 2 months
-
-You get error code 401 when the access token expires. To get a new token, run the following command.
-
-```bash
-curl -X POST 'https://id.twitch.tv/oauth2/token' \
-     -F 'grant_type=client_credentials' \
-     -F 'client_id=<CLIENT_ID goes here>' \
-     -F 'client_secret=<CLIENT_SECRET goes here>'
-```
-
-You can find `CLIENT_ID` and `CLIENT_SECRET` in `.env`.
-
-The reply is in the json format.
-
-```json
-{
-  "access_token": "0vbuo8rvancxeuvon7k975jf66b5sq",
-  "expires_in": 4533330,
-  "token_type": "bearer"
-}
-```
-
-Replace the access token in `.env` with the new one.
-
-### Update the config files
-
-NordVPN updates their servers once in a while. Make sure you have the latest server list or you will not be able to connect to the new servers.
