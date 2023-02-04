@@ -2,7 +2,7 @@ const KAPI = require('./utils/API');
 const { writeData, getTS } = require('./utils/utils');
 
 const getStreams = async (endPage = 1) => {
-  const strmPath = `./dump/getStreams/${getTS().replaceAll(':', '.')}.json.txt`;
+  const strmPath = `./dump/getStreams/${getTS().replaceAll(':', '.')}.tsv`;
   const cursor = [''];
   const userLogins = new Set();
 
