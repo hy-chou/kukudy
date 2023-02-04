@@ -58,14 +58,16 @@ Note that an access token expires in about two months, and if you do not get a n
 
 ## Quick start guide
 
-This tutorial gives basic instructions for the first-time probers to get started with kukudy.
+This tutorial, designed for first-time kukudy users, provides descriptions of the two fundamental scripts inside `kukudy/`.
 
-To get started, go to the `kukudy/` directory and do the following steps:
+Before we start, go to the `kukudy/` directory and do the following steps:
 
 1. `mkdir playground`
 2. `cd playground`
 
-### updateStreams.js
+Let's go!
+
+### 1. updateStreams.js
 
 ```bash
 node ../updateStreams.js [NUMBER_OF_CHANNELS]
@@ -93,7 +95,7 @@ Each filename is the time `updateStreams.js` starts running in UTC.
 
 Each line is the raw response from the Get Streams API.
 
-### updateEdges.js
+### 2. updateEdges.js
 
 ```bash
 node ../updateEdges.js
@@ -113,23 +115,23 @@ Each line has three items, a timestamp, a response, and a user login. The respon
 
 ## Advanced guide
 
-### 3. Probe faster with a shell script
+This tutorial, designed for advanced kukudy users, provides descriptions of the scripts inside `kukudy/scripts/`.
 
-Typing the same commands is exhausting. Is there a way to probe using one command?
+Let's go!
 
-Yes.
+### 3. book.sh
 
-Let's try to probe the top 200 channels for 3 times. Before the probe, make sure you know the absolute path to `kukudy/`. If not, run `echo $PWD` inside `kukudy/`.
-
-Now, remove the `playground/` by `rm -r playground/`, and then run the following command:
-
-```bash!
-bash scripts/book.sh /ABS/PATH/TO/kukudy playground 200 3
+```bash
+bash book.sh TARGET_DIR CHANNEL_COUNT ROUND_COUNT
 ```
 
-When the jobs is done, you will see three files in `ulgs/`, three files in `strm/`, and three files in `edgs/`.
+book.sh collects at least CHANNEL_COUNT channels for ROUND_COUNT rounds and stores the data inside `kukudy/TARGET_DIR/`.
 
-For more information on shell scripts, run `man bash`.
+For example, to collect 1000 channels for three times and store the data inside `kukudy/playground`, run
+
+```bash
+bash book.sh playground 1000 3
+```
 
 ### 4. Schedule a probe with cron
 
