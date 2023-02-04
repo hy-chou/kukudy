@@ -11,7 +11,7 @@ const getVideoEdgeHostname = (userLogin) => KAPI.reqPlaybackAccessToken(userLogi
     const strHeaders = JSON.stringify(res.headers);
     const strData = JSON.stringify(res.data);
     await writeData(
-      `./logs/dump/${ts.slice(0, 13)}.tsv`,
+      `./dump/getVEH/${ts.slice(0, 13)}.tsv`,
       `${ts}\t${userLogin}\treqPAT\t${strHeaders}\t${strData}\n`,
     );
     return res.data.data.streamPlaybackAccessToken;
@@ -22,7 +22,7 @@ const getVideoEdgeHostname = (userLogin) => KAPI.reqPlaybackAccessToken(userLogi
     const strHeaders = JSON.stringify(res.headers);
     const strData = JSON.stringify(res.data);
     await writeData(
-      `./logs/dump/${ts.slice(0, 13)}.tsv`,
+      `./dump/getVEH/${ts.slice(0, 13)}.tsv`,
       `${ts}\t${userLogin}\treqUsher\t${strHeaders}\t${strData}\n`,
     );
     return res.data;
@@ -34,7 +34,7 @@ const getVideoEdgeHostname = (userLogin) => KAPI.reqPlaybackAccessToken(userLogi
     const strHeaders = JSON.stringify(res.headers);
     const strData = JSON.stringify(res.data);
     await writeData(
-      `./logs/dump/${ts.slice(0, 13)}.tsv`,
+      `./dump/getVEH/${ts.slice(0, 13)}.tsv`,
       `${ts}\t${userLogin}\treqWeaver\t${strHeaders}\t${strData}\n`,
     );
     return res.data;
