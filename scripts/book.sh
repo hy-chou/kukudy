@@ -1,33 +1,38 @@
 #!/bin/bash
 
-if [ $# != 4 ] ; then
+if [ $# -ne 3 ] ; then
     echo -e "
 SYNOPSIS
-    bash book.sh PATH/TO/KUKUDY TARGET_DIR CHANNEL_COUNT ROUND_COUNT
+    bash ./scripts/book.sh TARGET_DIR CHANNEL_COUNT ROUND_COUNT
 
-DIRECTIONS
-    Write the following lines to /etc/cron.d/kukudy
+NOTES
+    book.sh can be scheduled to run at a specific time by creating a file in the
+    /etc/cron.d directory with the following content:
 
-DIR_K=$(cd .. && pwd)
+SHELL=/bin/sh
+PATH=$PATH
+DIR_K=$PWD
 
-59 23 * * * $USER bash \${DIR_K}/scripts/book.sh \${DIR_K} playground 1000 3
+49 15 04 02 * $USER bash \${DIR_K}/scripts/book.sh playground 100 1
 "
     exit 1
 fi
 
-DIR_K=$1
-TARGET_DIR=$2
-CHANNEL_COUNT=$3
-ROUND_COUNT=$4
+cd "$(dirname "$0")/.." || exit 1
 
+TARGET_DIR=$1
+CHANNEL_COUNT=$2
+ROUND_COUNT=$3
 
-mkdir -p ${DIR_K}/${TARGET_DIR}
-cd ${DIR_K}/${TARGET_DIR}
+mkdir "${TARGET_DIR}" || exit 1
+cd "${TARGET_DIR}" || exit 1
 
+bash ../scripts/logIP.sh
 
-for ROUND in $(seq ${ROUND_COUNT})
+for _ in $(seq "${ROUND_COUNT}")
 do
-    node ../updateStreams.js ${CHANNEL_COUNT}
+    node ../updateStreams.js "${CHANNEL_COUNT}"
     node ../updateEdges.js
 done
 
+bash ../scripts/logIP.sh
