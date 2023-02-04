@@ -60,39 +60,34 @@ Note that an access token expires in about two months, and if you do not get a n
 
 This tutorial gives basic instructions for the first-time probers to get started with kukudy.
 
-### 1. The first probe
+To get started, go to the `kukudy/` directory and do the following steps:
 
-After installing kukudy, create a new directory named `playground` inside the root directory of kukudy, and go inside it. Next, run the following command:
+1. `mkdir playground`
+2. `cd playground`
 
-```bash
-node ../updateStreams.js 100
-```
-
-Congratulations! You have done your first probe!
-
-Let's see the data you just collected.
+### updateStreams.js
 
 ```bash
-ls -F
+node ../updateStreams.js [NUMBER_OF_CHANNELS]
 ```
 
-It seems like there are two new directories, `strm/` and `ulgs/`. Let's check out `ulgs/` first.
+> By default, `NUMBER_OF_CHANNELS` is 100.
+
+The `updateStreams.js` script uses Twitch API's [Get Streams](https://dev.twitch.tv/docs/api/reference/#get-streams) to get a list of active streams, which is in descending order by the number of viewers watching the stream.
+
+The list is stored in two formats inside two directories, `ulgs/` and `strm/`.
 
 #### ULGS/
 
-There is a `.txt` file inside `ulgs/`. The filename is the UTC time of the probe. This file contains 100 user logins which belong to the top 100 live channels.
-
-To print the file, run `cat FILE`.
-
-The user logins are listed in descending order of viewer count. That is, the first channel has the most viewer of all live channels.
-
-Is there more information about these channels? Let's move on to `strm/`.
+Inside `ulgs/` are `.txt` files.
+Each filename is the start time of the probe in UTC.
+Each line is a user login, namely the name of a channel.
 
 #### STRM/
 
-There is a `.json.txt` file inside `strm/`. The filename is also the UTC time of the probe. This file contains the raw response from [Twitch API](https://dev.twitch.tv/docs/api/reference#get-streams), including two sections, data and pagination. The extra information of the channels is in the data section.
-
-To see the extra information about the first channel, run `cat FILE | jq '.data[0]'`.
+Inside `strm/` are `.json.txt` files.
+Each filename is the start time of the probe in UTC.
+Each line is the raw response from the Get Streams API.
 
 ### 2. Video edges
 
