@@ -77,7 +77,7 @@ node ../updateStreams.js [NUMBER_OF_CHANNELS]
 
 The `updateStreams.js` script uses Twitch API's [Get Streams](https://dev.twitch.tv/docs/api/reference/#get-streams) to get a list of active streams, which is in descending order by the number of viewers watching the stream.
 
-The list is stored in two formats inside two directories, `ulgs/` and `strm/`.
+The data is stored in two formats inside two directories, `ulgs/` and `dump/getStreams/`.
 
 #### ULGS/
 
@@ -87,13 +87,19 @@ Each filename is the time `updateStreams.js` starts running in UTC.
 
 Each line is a user login, namely the name of a channel.
 
-#### STRM/
+#### DUMP/GETSTREAMS/
 
-Inside `strm/` are `.json.txt` files.
+Inside `dump/getStreams/` are `.tsv` files.
 
 Each filename is the time `updateStreams.js` starts running in UTC.
 
-Each line is the raw response from the Get Streams API.
+Each line has five tab-separated elements:
+
+1. timestamp
+2. page number
+3. request type - always `reqStreams`
+4. HTTP headers (json)
+5. HTTP body (json) - the raw response from the Get Streams API.
 
 ### 2. updateEdges.js
 
@@ -103,7 +109,7 @@ node ../updateEdges.js
 
 The `updateEdges.js` script reads the latest stream list inside `ulgs/` to get the hostnames of the edge servers distributing the streams in the list.
 
-The hostnames are stored inside the `edgs/` directory.
+The data is stored in two formats inside two directories, `edgs/` and `dump/getVEH/`.
 
 #### EDGS/
 
@@ -111,7 +117,25 @@ Inside `edgs/` are `.tsv` files.
 
 Each filename is the time `updateEdges.js` starts running in UTC.
 
-Each line has three items, a timestamp, a response, and a user login. The response is either the hostname of the edge server hosting the stream of the channel with the corresponding user login, or an error message.
+Each line has three tab-separated elements:
+
+1. timestamp
+2. response - either a hostname or an error message
+3. user login
+
+#### DUMP/GETVEH/
+
+Inside `dump/getVEH/` are `.tsv` files.
+
+Each filename is the time `updateEdges.js` starts running in UTC.
+
+Each line has five tab-separated elements:
+
+1. timestamp
+2. user login
+3. request type
+4. HTTP headers (json)
+5. HTTP body (json)
 
 ### 3. book.sh
 
