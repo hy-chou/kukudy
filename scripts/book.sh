@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if [ $# -ne 3 ] ; then
+if ! [[ $# -eq 3 && $2 =~ ^[0-9]+$ && $3 =~ ^[0-9]+$ ]] ; then
     echo -e "
 SYNOPSIS
     bash book.sh TARGET_DIR CHANNEL_COUNT ROUND_COUNT
