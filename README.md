@@ -167,37 +167,6 @@ sudo bash bookvpn.sh playground 1000 tw168
 
 For beginners, read the [VPN guide](#VPN-guide) below to set up the envoronment first.
 
-## Cron guide
-
-`cron` is a daemon to execute scheduled commands. We can use `cron` to schedule probes.
-
-Create a cron file named `kukudy` inside `/etc/cron.d/` with the following content.
-
-```cron
-PATH=...
-DIR_K=...
-
-# .---------------- minute (0 - 59)
-# |  .------------- hour (0 - 23)
-# |  |  .---------- day of month (1 - 31)
-# |  |  |  .------- month (1 - 12)
-# |  |  |  |  .---- day of week (0 - 6) (Sunday=0 or 7)
-# |  |  |  |  |
-# m h dom mon dow user command
-
-14 03 * * * USER bash ${DIR_K}/scripts/book.sh playground 100 1
-```
-
-> Set the PATH variable to the string you see running `echo $PATH`.
-
-> Set the DIR_K variable to the absolute path to the `kukudy` directory, i.e. what you see running `pwd` inside `kukudy/`.
-
-> Replace USER with your user name, i.e. the string you see running `echo $USER`.
-
-By doing so, book.sh is scheduled to run every day at 03:14 (local time).
-
-For more information on the syntax of cron files, run `man 5 crontab`.
-
 ## VPN guide
 
 This tutorial shows kukudy users a way to set up the environment in order to access the VPN service provided by NordVPN.
@@ -209,11 +178,11 @@ Before we start, go to the `kukudy/` directory and do the following steps:
 
 Let's go!
 
-### 1. the auth.txt file
+### 1. The auth.txt file
 
-Kukudy connects to NordVPN's VPN server with the `openvpn` daemon, which authenticate with the VPN server using a username/password file.
+Kukudy connects to NordVPN's VPN server with the `openvpn` daemon, which authenticates using a username/password file.
 
-Create a `auth.txt` file inside the `nordvpn/` directory with the following content.
+Create an `auth.txt` file inside the `nordvpn/` directory with the following content.
 
 ```auth.txt
 fjpLphPudtnCP9wzfP44sr54
@@ -228,7 +197,7 @@ Replace the first line with your Username and the second line with your Password
 
 ### 2. Update config files
 
-Using the `openvpn` daemon, kukudy specifies the VPN server to connect to and the configurations with a `.ovpn` file provided by NordVPN.
+Using the `openvpn` daemon, kukudy specifies the VPN server to connect to and the configurations with an `.ovpn` file provided by NordVPN.
 
 Download the latest server list by running
 
@@ -280,3 +249,34 @@ sudo ip rule add table 128 from NS.LAB.IP.MBOXA
 sudo ip route add table 128 default via NS.LAB.IP.254
 sudo ip route add table 128 to NS.LAB.IP.0/24 dev enp2s0
 ```
+
+## Cron guide
+
+`cron` is a daemon to execute scheduled commands. We can use `cron` to schedule probes.
+
+Create a cron file named `kukudy` inside `/etc/cron.d/` with the following content.
+
+```cron
+PATH=...
+DIR_K=...
+
+# .---------------- minute (0 - 59)
+# |  .------------- hour (0 - 23)
+# |  |  .---------- day of month (1 - 31)
+# |  |  |  .------- month (1 - 12)
+# |  |  |  |  .---- day of week (0 - 6) (Sunday=0 or 7)
+# |  |  |  |  |
+# m h dom mon dow user command
+
+14 03 * * * USER bash ${DIR_K}/scripts/book.sh playground 100 1
+```
+
+> Set the PATH variable to the string you see running `echo $PATH`.
+
+> Set the DIR_K variable to the absolute path to the `kukudy` directory, i.e. what you see running `pwd` inside `kukudy/`.
+
+> Replace USER with your user name, i.e. the string you see running `echo $USER`.
+
+By doing so, book.sh is scheduled to run every day at 03:14 (local time).
+
+For more information on the syntax of cron files, run `man 5 crontab`.
