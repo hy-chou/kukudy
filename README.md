@@ -137,7 +137,7 @@ Each line has five tab-separated elements:
 4. HTTP headers (json)
 5. HTTP body (json)
 
-### 3. book.sh
+### 3. scripts/book.sh
 
 ```bash
 bash book.sh TARGET_DIR CHANNEL_COUNT ROUND_COUNT
@@ -150,6 +150,22 @@ For example, to collect 1000 channels for three times and store the data inside 
 ```bash
 bash book.sh playground 1000 3
 ```
+
+### 4. scripts/bookvpn.sh
+
+```bash
+sudo bash bookvpn.sh TARGET_DIR CHANNEL_COUNT CONFIG_ID ...
+```
+
+bookvpn.sh connects to the VPN server whose id is CONFIG_ID, collects at least CHANNEL_COUNT channels for ROUND_COUNT rounds and stores the data inside the `kukudy/TARGET_DIR/` directory.
+
+For example, to collect 1000 channels and store the data inside `kukudy/playground/` while connecting to tw168.nordvpn.com , run
+
+```bash
+sudo bash bookvpn.sh playground 1000 tw168
+```
+
+For beginners, read the [VPN guide](#VPN-guide) below to set up the envoronment first.
 
 ## Cron guide
 
@@ -184,50 +200,76 @@ For more information on the syntax of cron files, run `man 5 crontab`.
 
 ## VPN guide
 
-Since CDN is designed to get close to end users, it does not feel right to stay at Taipei. It is time to go out and see the world -- with the help of a VPN.
+This tutorial shows kukudy users a way to set up the environment in order to access the VPN service provided by NordVPN.
 
-In this example, you will use the `openvpn` daemon under UDP protocol to access the VPN service provided by NordVPN.
+Before we start, go to the `kukudy/` directory and do the following steps:
 
-### 1. Update config files
+1. `mkdir nordvpn`
+2. `cd nordvpn`
 
-Create a new directory named `nordvpn` inside the root directory of kukudy, go inside, and run the following commands to download the latest server list:
+Let's go!
 
-```bash
-wget https://downloads.nordcdn.com/configs/archives/servers/ovpn.zip
-unzip ovpn.zip
-```
+### 1. the auth.txt file
 
-Each `.ovpn` file inside `nordvpn/ovpn_udp/` represents a server you can connect to. Each file name consists of a country code and an index number, followed by `.nordvpn.com.udp.ovpn`.
+Kukudy connects to NordVPN's VPN server with the `openvpn` daemon, which authenticate with the VPN server using a username/password file.
 
-NordVPN updates their servers once in a while. Make sure you have the latest server list or you will not be able to connect to the new servers.
-
-For more information about the content of `.ovpn` files, run `man openvpn`.
-
-### 2. Authentication
-
-You need one last thing to connect to NordVPN's server: the authentication codes.
-
-Create a file named `auth.txt` inside `nordvpn/`. Open a browser and log in to nordvpn.com, find the Service credentials section, copy Username and Password, and paste them in separate lines in `auth.txt`. It should look something like this:
+Create a `auth.txt` file inside the `nordvpn/` directory with the following content.
 
 ```auth.txt
 fjpLphPudtnCP9wzfP44sr54
 eC4lqppwjdkZnM9V0MxpppZv
 ```
 
+The lines above are example credentials. Get your own credentials.
+
+Log in and go to [NordVPN's Dashboard](https://my.nordaccount.com/dashboard/nordvpn/). You should see your Username and Password in the *Service credentials (manual setup)* section.
+
+Replace the first line with your Username and the second line with your Password in the `auth.txt` file.
+
+### 2. Update config files
+
+Using the `openvpn` daemon, kukudy specifies the VPN server to connect to and the configurations with a `.ovpn` file provided by NordVPN.
+
+Download the latest server list by running
+
+```bash
+wget https://downloads.nordcdn.com/configs/archives/servers/
+```
+
+Unzip the `ovpn.zip` file by running 
+
+```bash
+unzip ovpn.zip
+```
+
+The configuration files of two protocols TCP and UDP are stored inside two directories, `ovpn_tcp/` and `ovpn_udp/`. Kukudy uses UDP only.
+
+#### OVPN_UDP/
+
+Inside `ovpn_udp/` are `.ovpn` files.
+
+Each filename starts with a server ID, which is a combination of a country code and an index number, followed by `.nordvpn.com.udp.ovpn`.
+
+NordVPN updates their servers once in a while. Make sure you have the latest server list or you will not be able to connect to the new servers.
+
+For more information about the content of `.ovpn` files, run `man openvpn`.
+
 ### 3. Connect
 
-Run the follwing command:
+NordVPN provides a [server recommendation API](https://nordvpn.com/servers/tools/).
+
+Let's say you get tw168.nordvpn.com. To connect to it, run the follwing command:
 
 ```bash
 sudo openvpn --config nordvpn/ovpn_udp/tw168.nordvpn.com.udp.ovpn \
              --auth-user-pass nordvpn/auth.txt
 ```
 
-When you see the message "Initialization Sequence Completed", congratulations! You are connected to the tw168 server!
+When you see the message "Initialization Sequence Completed", congratulations! You are connected!
 
 To kill the connection, press `control + c` on your keyboard.
 
-In order to run the program in background, add the option `--daemon`.
+In order to run the program in background, run the command with the `--daemon` option.
 
 ### P.S.
 
