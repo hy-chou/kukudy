@@ -5,13 +5,13 @@ const {
   getTS, url2hostname, writeData, sleep,
 } = require('./utils/utils');
 
-const getVideoEdgeHostname = (userLogin) => KAPI.reqPlaybackAccessToken(userLogin)
+const getVideoEdgeHostname = (userLogin, dumpPath) => KAPI.reqPlaybackAccessToken(userLogin)
   .then(async (res) => {
     const ts = getTS();
     const strHeaders = JSON.stringify(res.headers);
     const strData = JSON.stringify(res.data);
     await writeData(
-      `./dump/getVEH/${ts.slice(0, 13)}.tsv`,
+      dumpPath,
       `${ts}\t${userLogin}\treqPAT\t${strHeaders}\t${strData}\n`,
     );
     return res.data.data.streamPlaybackAccessToken;
@@ -22,7 +22,7 @@ const getVideoEdgeHostname = (userLogin) => KAPI.reqPlaybackAccessToken(userLogi
     const strHeaders = JSON.stringify(res.headers);
     const strData = JSON.stringify(res.data);
     await writeData(
-      `./dump/getVEH/${ts.slice(0, 13)}.tsv`,
+      dumpPath,
       `${ts}\t${userLogin}\treqUsher\t${strHeaders}\t${strData}\n`,
     );
     return res.data;
@@ -34,7 +34,7 @@ const getVideoEdgeHostname = (userLogin) => KAPI.reqPlaybackAccessToken(userLogi
     const strHeaders = JSON.stringify(res.headers);
     const strData = JSON.stringify(res.data);
     await writeData(
-      `./dump/getVEH/${ts.slice(0, 13)}.tsv`,
+      dumpPath,
       `${ts}\t${userLogin}\treqWeaver\t${strHeaders}\t${strData}\n`,
     );
     return res.data;
@@ -55,14 +55,17 @@ const loadUserLogins = async () => {
 const updateEdges = async () => {
   const ts = getTS().replaceAll(':', '.');
   const edgsPath = `./edgs/${ts}.tsv`;
+  const dumpPath = `./dump/getVEH/${ts}.tsv`;
 
   await loadUserLogins()
     .then((userLogins) => userLogins.forEach(async (userLogin, index) => {
       await sleep(index * 40); // 25 Hz
 
+      const res = await getVideoEdgeHostname(userLogin, dumpPath);
+
       writeData(
         edgsPath,
-        `${getTS()}\t${await getVideoEdgeHostname(userLogin)}\t${userLogin}\n`,
+        `${getTS()}\t${res}\t${userLogin}\n`,
       );
     }));
 };
