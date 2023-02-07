@@ -31,6 +31,10 @@ const getStreams = async (endPage = 1) => {
           `${getTS()}\t@getStreams p${p}\t${err.message}\n`,
         );
       });
+
+    if (typeof cursor[0] === 'undefined') {
+      break;
+    }
   }
 
   return userLogins;
