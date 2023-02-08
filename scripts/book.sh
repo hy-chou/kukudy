@@ -18,7 +18,7 @@ TARGET_DIR=$1
 CHANNEL_COUNT=$2
 ROUND_COUNT=$3
 
-mkdir "${TARGET_DIR}" || exit 1
+mkdir -p "${TARGET_DIR}" || exit 1
 cd "${TARGET_DIR}" || exit 1
 
 for _ in $(seq "${ROUND_COUNT}")

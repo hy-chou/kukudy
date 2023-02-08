@@ -21,7 +21,7 @@ shift
 shift
 CONFIG_IDS=( "$@" )
 
-mkdir "${TARGET_DIR}" || exit 1
+mkdir -p "${TARGET_DIR}" || exit 1
 cd "${TARGET_DIR}" || exit 1
 
 for CONFIG_ID in "${CONFIG_IDS[@]}"
