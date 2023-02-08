@@ -18,10 +18,7 @@ TARGET_DIR=$1
 CHANNEL_COUNT=$2
 ROUND_COUNT=$3
 
-if [ ! -d "${TARGET_DIR}" ]
-then
-	mkdir "${TARGET_DIR}" || exit 1
-fi
+mkdir -p "${TARGET_DIR}" || exit 1
 cd "${TARGET_DIR}" || exit 1
 
 for _ in $(seq "${ROUND_COUNT}")
