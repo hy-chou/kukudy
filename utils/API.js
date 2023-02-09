@@ -6,21 +6,34 @@ if (envResult.error) throw envResult.error;
 
 const { writeData, getTS } = require('./utils');
 
+const tsZ = getTS().replaceAll(':', '.');
+
 const kaxios = axios.create({
   timeout: 150_000,
   httpsAgent: new https.Agent({ keepAlive: true }),
 });
 
 kaxios.interceptors.response.use(
-  async (response) => response,
-  async (error) => {
-    const t2 = getTS();
-    const ts2H = t2.slice(0, 13);
-    const { type, t1 } = error.config.kukudy;
+  (response) => {
+    const ts2 = getTS();
+    const { method, param, ts1 } = response.config.kukudy;
 
-    await writeData(
-      `./errs/${ts2H}.tsv`,
-      `${t1}\t${type}\t${error.code}\t${error.message}\n`,
+    writeData(
+      `./dumps/${tsZ}.tsv`,
+      `${ts1}\t${ts2}\t${method}\t${param}\t`
+      + `${JSON.stringify(response.headers)}\t`
+      + `${JSON.stringify(response.data)}\n`,
+    );
+    return response;
+  },
+  async (error) => {
+    const ts2 = getTS();
+    const { method, param, ts1 } = error.config.kukudy;
+
+    writeData(
+      `./errs/${tsZ}.tsv`,
+      `${ts1}\t${ts2}\t${method}\t${param}\t`
+      + `${error.code}\t${error.message}\n`,
     );
     return Promise.reject(error);
   },
@@ -40,8 +53,9 @@ class KAPI {
       },
 
       kukudy: {
-        type: 'reqStreams',
-        t1: getTS(),
+        method: 'reqStreams',
+        param: cursor,
+        ts1: getTS(),
       },
     };
 
@@ -58,8 +72,9 @@ class KAPI {
       },
 
       kukudy: {
-        type: 'reqSpecificStreams',
-        t1: getTS(),
+        method: 'reqSpecificStreams',
+        param: JSON.stringify(watchlist),
+        ts1: getTS(),
       },
     };
 
@@ -84,8 +99,9 @@ class KAPI {
       headers: { 'Client-Id': process.env.CLIENT_ID_GQL },
 
       kukudy: {
-        type: 'reqPAT',
-        t1: getTS(),
+        method: 'reqPlaybackAccessToken',
+        param: userLogin,
+        ts1: getTS(),
       },
     };
 
@@ -101,8 +117,9 @@ class KAPI {
       },
 
       kukudy: {
-        type: 'reqUsherM3U8',
-        t1: getTS(),
+        method: 'reqUsherM3U8',
+        param: userLogin,
+        ts1: getTS(),
       },
     };
 
@@ -112,8 +129,9 @@ class KAPI {
   static reqGet = (url) => {
     const config = {
       kukudy: {
-        type: 'reqGet',
-        t1: getTS(),
+        method: 'reqGet',
+        param: url,
+        ts1: getTS(),
       },
     };
     return kaxios.get(url, config);
