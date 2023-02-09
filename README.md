@@ -167,6 +167,22 @@ sudo bash bookvpn.sh playground 1000 tw168
 
 For beginners, read the [VPN guide](#VPN-guide) below to set up the envoronment first.
 
+### 5. scripts/bookvpnbycountry.sh
+
+```bash
+sudo bash bookvpnbycountry.sh TARGET_DIR CHANNEL_COUNT COUNTRY...
+```
+
+bookvpnbycountry.sh connects with a VPN server in COUNTRY, collects at least CHANNEL_COUNT channels and stores the data inside the `kukudy/TARGET_DIR/` directory.
+
+> For example, to collect 1000 channels and store the data inside `kukudy/playground/` while connecting to a VPN server in Taiwan , run
+>
+> ```bash
+> sudo bash bookvpnbycountry.sh playground 1000 TW
+> ```
+>
+> For beginners, read the [VPN guide](#VPN-guide) below to set up the envoronment first.
+
 ## VPN guide
 
 This tutorial shows kukudy users a way to set up the environment in order to access the VPN service provided by NordVPN.
