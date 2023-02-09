@@ -143,13 +143,13 @@ Each line has five tab-separated elements:
 bash book.sh TARGET_DIR CHANNEL_COUNT ROUND_COUNT
 ```
 
-book.sh collects at least CHANNEL_COUNT channels for ROUND_COUNT rounds and stores the data inside `kukudy/TARGET_DIR/`.
+book.sh collects at least CHANNEL_COUNT channels for ROUND_COUNT rounds and stores the data inside the `kukudy/TARGET_DIR/` directory.
 
-For example, to collect 1000 channels for three times and store the data inside `kukudy/playground/`, run
-
-```bash
-bash book.sh playground 1000 3
-```
+> For example, to collect 1000 channels for three times and store the data inside the `kukudy/playground/` directory, run
+>
+> ```bash
+> bash book.sh playground 1000 3
+> ```
 
 ### 4. scripts/bookvpn.sh
 
@@ -157,15 +157,15 @@ bash book.sh playground 1000 3
 sudo bash bookvpn.sh TARGET_DIR CHANNEL_COUNT CONFIG_ID ...
 ```
 
-bookvpn.sh connects to the VPN server whose id is CONFIG_ID, collects at least CHANNEL_COUNT channels for ROUND_COUNT rounds and stores the data inside the `kukudy/TARGET_DIR/` directory.
+bookvpn.sh connects to the VPN server whose id is CONFIG_ID, collects at least CHANNEL_COUNT channels and stores the data inside the `kukudy/TARGET_DIR/` directory.
 
-For example, to collect 1000 channels and store the data inside `kukudy/playground/` while connecting to tw168.nordvpn.com , run
-
-```bash
-sudo bash bookvpn.sh playground 1000 tw168
-```
-
-For beginners, read the [VPN guide](#VPN-guide) below to set up the envoronment first.
+> For example, to collect 1000 channels and store the data inside `kukudy/playground/` while connecting to tw168.nordvpn.com , run
+>
+> ```bash
+> sudo bash bookvpn.sh playground 1000 tw168
+> ```
+>
+> For beginners, read the [VPN guide](#VPN-guide) below to set up the envoronment first.
 
 ### 5. scripts/bookvpnbycountry.sh
 
@@ -174,6 +174,8 @@ sudo bash bookvpnbycountry.sh TARGET_DIR CHANNEL_COUNT COUNTRY...
 ```
 
 bookvpnbycountry.sh connects with a VPN server in COUNTRY, collects at least CHANNEL_COUNT channels and stores the data inside the `kukudy/TARGET_DIR/` directory.
+
+COUNTRY:  ISO 3166-1 alpha-2 codes
 
 > For example, to collect 1000 channels and store the data inside `kukudy/playground/` while connecting to a VPN server in Taiwan , run
 >
