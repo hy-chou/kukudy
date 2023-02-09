@@ -7,8 +7,8 @@ SYNOPSIS
 
 DESCRIPTION
     bookvpn.sh connects with the server whose id is CONFIG_ID, collects at least
-    CHANNEL_COUNT channels for ROUND_COUNT rounds and stores the data inside the
-    kukudy/TARGET_DIR/ directory.
+    CHANNEL_COUNT channels and stores the data inside the kukudy/TARGET_DIR/
+    directory.
 "
     exit 1
 fi
