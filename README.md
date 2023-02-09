@@ -73,7 +73,7 @@ Let's go!
 node ../updateStreams.js [NUMBER_OF_CHANNELS]
 ```
 
-> By default, `NUMBER_OF_CHANNELS` is 100.
+- `NUMBER_OF_CHANNELS` is 100 by default.
 
 The `updateStreams.js` script uses Twitch API's [Get Streams](https://dev.twitch.tv/docs/api/reference/#get-streams) to get a list of active streams, which is in descending order by the number of viewers watching the stream.
 
@@ -173,9 +173,9 @@ bookvpn.sh connects to the VPN server whose id is CONFIG_ID, collects at least C
 sudo bash bookvpnbycountry.sh TARGET_DIR CHANNEL_COUNT COUNTRY...
 ```
 
-bookvpnbycountry.sh connects with a VPN server in COUNTRY, collects at least CHANNEL_COUNT channels and stores the data inside the `kukudy/TARGET_DIR/` directory.
+- `COUNTRY...` are ISO 3166-1 alpha-2 codes.
 
-COUNTRY:  ISO 3166-1 alpha-2 codes
+bookvpnbycountry.sh connects with a VPN server in COUNTRY, collects at least CHANNEL_COUNT channels and stores the data inside the `kukudy/TARGET_DIR/` directory.
 
 > For example, to collect 1000 channels and store the data inside `kukudy/playground/` while connecting to a VPN server in Taiwan , run
 >
