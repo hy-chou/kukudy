@@ -3,7 +3,7 @@
 if ! [[ $# -ge 3 && $2 =~ ^[0-9]+$ ]] ; then
     echo -e "
 SYNOPSIS
-    sudo bash bookvpnbycountry.sh TARGET_DIR CHANNEL_COUNT COUNTRY ...
+    sudo bash bookvpnbycountry.sh TARGET_DIR CHANNEL_COUNT COUNTRY...
 
 DESCRIPTION
     bookvpnbycountry.sh connects with the server in COUNTRY, collects at least

@@ -3,7 +3,7 @@
 if ! [[ $# -ge 3 && $2 =~ ^[0-9]+$ ]] ; then
     echo -e "
 SYNOPSIS
-    sudo bash bookvpn.sh TARGET_DIR CHANNEL_COUNT CONFIG_ID ...
+    sudo bash bookvpn.sh TARGET_DIR CHANNEL_COUNT CONFIG_ID...
 
 DESCRIPTION
     bookvpn.sh connects with the server whose id is CONFIG_ID, collects at least
