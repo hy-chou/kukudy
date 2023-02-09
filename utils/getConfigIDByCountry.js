@@ -62,7 +62,7 @@ const countryCodes = {
   VN: 234,
 };
 
-const country = process.argv[2];
+const country = process.argv[2].toUpperCase();
 const countryID = countryCodes[country];
 
 if (countryID === undefined) {
@@ -80,4 +80,4 @@ axios.get('https://nordvpn.com/wp-admin/admin-ajax.php', {
     // limit: 9999,
   },
 })
-  .then((res) => console.log(res.data.map((item) => item.hostname)));
+  .then((res) => console.log(res.data[0].hostname));
