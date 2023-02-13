@@ -58,7 +58,7 @@ Note that an access token expires in about two months, and if you do not get a n
 
 ## Quick start guide
 
-This tutorial, designed for first-time kukudy users, provides descriptions of the two fundamental scripts inside `kukudy/`.
+This tutorial, designed for first-time kukudy users, provides descriptions of the fundamental scripts inside `kukudy/`.
 
 Before we start, go to the `kukudy/` directory and do the following steps:
 
@@ -101,45 +101,47 @@ Each line has five tab-separated elements:
 4. HTTP headers (json)
 5. HTTP body (json) - the raw response from the Get Streams API.
 
-### 2.0 updateEdges.js (Deprecated)
+### 2. updateEdges.js (Deprecated since v1.1.0)
 
-<details><summary>CLICK ME</summary>
-
-```bash
-node ../updateEdges.js
-```
-
-The `updateEdges.js` script reads the latest stream list inside `ulgs/` to get the hostnames of the edge servers distributing the streams in the list.
-
-The data is stored in two formats inside two directories, `edgs/` and `dump/getVEH/`.
-
-#### EDGS/
-
-Inside `edgs/` are `.tsv` files.
-
-Each filename is the time `updateEdges.js` starts running in UTC.
-
-Each line has three tab-separated elements:
-
-1. timestamp
-2. response - either a hostname or an error message
-3. user login
-
-#### DUMP/GETVEH/
-
-Inside `dump/getVEH/` are `.tsv` files.
-
-Each filename is the time `updateEdges.js` starts running in UTC.
-
-Each line has five tab-separated elements:
-
-1. timestamp
-2. user login
-3. request type
-4. HTTP headers (json)
-5. HTTP body (json)
-
-</details>
+> **Deprecated:** This script is no longer recommended.
+>
+> <details><summary>CLICK ME</summary>
+>
+> ```bash
+> node ../updateEdges.js
+> ```
+>
+> The `updateEdges.js` script reads the latest stream list inside `ulgs/` to get the hostnames of the edge servers distributing the streams in the list.
+>
+> The data is stored in two formats inside two directories, `edgs/` and `dump/getVEH/`.
+>
+> #### EDGS/
+>
+> Inside `edgs/` are `.tsv` files.
+>
+> Each filename is the time `updateEdges.js` starts running in UTC.
+>
+> Each line has three tab-separated elements:
+>
+> 1. timestamp
+> 2. response - either a hostname or an error message
+> 3. user login
+>
+> #### DUMP/GETVEH/
+>
+> Inside `dump/getVEH/` are `.tsv` files.
+>
+> Each filename is the time `updateEdges.js` starts running in UTC.
+>
+> Each line has five tab-separated elements:
+>
+> 1. timestamp
+> 2. user login
+> 3. request type
+> 4. HTTP headers (json)
+> 5. HTTP body (json)
+>
+> </details>
 
 ### 2.1 updateInfo.js
 
