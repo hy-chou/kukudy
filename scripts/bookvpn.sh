@@ -37,7 +37,7 @@ do
     bash ../scripts/sleepUntilConnected.sh || continue
 
     node ../updateStreams.js "${CHANNEL_COUNT}"
-    node ../updateEdges.js
+    node ../updateInfo.js
 
     kill "$(cat ../nordvpn/pid.txt)"
     bash ../scripts/sleepUntilDisconnected.sh

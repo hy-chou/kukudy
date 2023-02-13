@@ -24,5 +24,5 @@ cd "${TARGET_DIR}" || exit 1
 for _ in $(seq "${ROUND_COUNT}")
 do
     node ../updateStreams.js "${CHANNEL_COUNT}"
-    node ../updateEdges.js
+    node ../updateInfo.js
 done
