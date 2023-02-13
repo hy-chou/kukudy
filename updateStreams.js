@@ -2,41 +2,25 @@ const KAPI = require('./utils/API');
 const { writeData, getTS } = require('./utils/utils');
 
 const getStreams = async (endPage = 1) => {
-  const strmPath = `./dump/getStreams/${getTS().replaceAll(':', '.')}.tsv`;
   const cursor = [''];
   const userLogins = new Set();
 
   for (let p = 0; p < endPage; p += 1) {
-    // eslint-disable-next-line no-await-in-loop
-    await KAPI.reqStreams(cursor[0])
-      .then(async (res) => {
-        const ts = getTS();
-        const strHeaders = JSON.stringify(res.headers);
-        const strData = JSON.stringify(res.data);
-        await writeData(
-          strmPath,
-          `${ts}\t${p}\treqStreams\t${strHeaders}\t${strData}\n`,
-        );
+    try {
+      // eslint-disable-next-line no-await-in-loop
+      const resStreams = await KAPI.reqStreams(cursor[0]);
 
-        return res.data;
-      })
-      .then((data) => {
-        data.data.forEach((stream) => userLogins.add(stream.user_login));
-        cursor.pop();
-        cursor.push(data.pagination.cursor);
-      })
-      .catch(async (err) => {
-        await writeData(
-          `./errs/${getTS().slice(0, 13)}.tsv`,
-          `${getTS()}\t@getStreams p${p}\t${err.message}\n`,
-        );
+      resStreams.data.data.forEach((stream) => {
+        userLogins.add(stream.user_login);
       });
-
-    if (typeof cursor[0] === 'undefined') {
-      break;
+      if (typeof resStreams.data.pagination.cursor === 'undefined') break;
+      cursor.pop();
+      cursor.push(resStreams.data.pagination.cursor);
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.error(error);
     }
   }
-
   return userLogins;
 };
 
