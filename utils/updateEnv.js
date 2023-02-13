@@ -14,5 +14,9 @@ if (require.main === module) {
       const ts = getTS();
       await writeData('../.env', `ACCESS_TOKEN="${token}"  # ${ts}\n`);
     })
-    .catch(() => { process.exitCode = 1; });
+    .catch((error) => {
+      // eslint-disable-next-line no-console
+      console.error(error);
+      process.exitCode = 1;
+    });
 }
