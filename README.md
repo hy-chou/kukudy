@@ -87,21 +87,23 @@ Each filename is the time `updateStreams.js` starts running in UTC.
 
 Each line is a user login, namely the name of a channel.
 
-#### DUMP/GETSTREAMS/
+#### DUMPS/REQSTREAMS/
 
-Inside `dump/getStreams/` are `.tsv` files.
+Inside `dumps/reqStreams/` are `.tsv` files.
 
 Each filename is the time `updateStreams.js` starts running in UTC.
 
 Each line has five tab-separated elements:
 
-1. timestamp
-2. page number
-3. request type - always `reqStreams`
+1. timestamp - sent time
+2. timestamp - received time
+3. ...
 4. HTTP headers (json)
 5. HTTP body (json) - the raw response from the Get Streams API.
 
-### 2. updateEdges.js
+### 2.0 updateEdges.js (Deprecated)
+
+<details><summary>CLICK ME</summary>
 
 ```bash
 node ../updateEdges.js
@@ -136,6 +138,44 @@ Each line has five tab-separated elements:
 3. request type
 4. HTTP headers (json)
 5. HTTP body (json)
+
+</details>
+
+### 2.1 updateInfo.js
+
+```bash
+node ../updateInfo.js
+```
+
+The `updateInfo.js` script reads the latest stream list inside `ulgs/` to get information of the edge servers distributing the streams in the list.
+
+The data is stored in two formats inside three directories, `info/`, `dumps/reqPlaybackAccessToken/` and `dumps/reqUsherM3U8/`.
+
+#### INFO/
+
+Inside `info/` are `.tsv` files.
+
+Each filename is the time `updateInfo.js` starts running in UTC.
+
+Each line has three tab-separated elements:
+
+1. timestamp
+2. user login
+3. info / error (json) - NODE, etc.
+
+#### DUMPS/REQPLAYBACKACCESSTOKEN/ and DUMPS/REQUSHERM3U8/
+
+Inside the directories, `dumps/reqPlaybackAccessToken/` and `dumps/reqUsherM3U8/`, are `.tsv` files.
+
+Each filename is the time `updateInfo.js` starts running in UTC.
+
+Each line has five tab-separated elements:
+
+1. timestamp - sent time
+2. timestamp - received time
+3. ...
+4. HTTP headers (json)
+5. HTTP body (json) - the raw response from the Get Streams API.
 
 ### 3. scripts/book.sh
 
