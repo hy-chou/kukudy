@@ -19,8 +19,8 @@ kaxios.interceptors.response.use(
     const { method, param, ts1 } = response.config.kukudy;
 
     writeData(
-      `./dumps/${tsZ}.tsv`,
-      `${ts1}\t${ts2}\t${method}\t${param}\t`
+      `./dumps/${method}/${tsZ}.tsv`,
+      `${ts1}\t${ts2}\t${param}\t`
       + `${JSON.stringify(response.headers)}\t`
       + `${JSON.stringify(response.data)}\n`,
     );
