@@ -1,7 +1,9 @@
 const { readdir, readFile } = require('node:fs/promises');
 
 const KAPI = require('./utils/API');
-const { getTS, writeData, sleep, parseExtXTwitchInfo } = require('./utils/utils');
+const {
+  getTS, writeData, sleep, parseExtXTwitchInfo,
+} = require('./utils/utils');
 
 const loadUserLogins = async () => {
   const file = await readdir('./ulgs')
@@ -28,12 +30,12 @@ const getEdgeInfo = async (userLogin) => {
       };
     }
     return error.message;
-  };
-}
+  }
+};
 
 const updateInfo = async () => {
   const ts = getTS().replaceAll(':', '.');
-  const edgsPath = `./edgs/${ts}.tsv`;
+  const infoPath = `./info/${ts}.tsv`;
 
   const userLogins = await loadUserLogins();
 
@@ -42,7 +44,7 @@ const updateInfo = async () => {
 
     const info = await getEdgeInfo(userLogin);
 
-    writeData(edgsPath, `${getTS()}\t${userLogin}\t${JSON.stringify(info)}\n`);
+    writeData(infoPath, `${getTS()}\t${userLogin}\t${JSON.stringify(info)}\n`);
   });
 };
 
