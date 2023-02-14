@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 const axios = require('axios');
 
-const countryCodes = {
+const idOfCountry = {
   AE: 226,
   AL: 2,
   AR: 10,
@@ -65,11 +65,26 @@ const countryCodes = {
   ZA: 200,
 };
 
+const errorMessage = [
+  '',
+  'SYNOPSIS',
+  '  node getConfigIDByCountry.js COUNTRY',
+  '',
+  'NOTE',
+  `  valid COUNTRY:  ${Object.keys(idOfCountry)}`,
+  '',
+];
+
+if (process.argv.length !== 3) {
+  errorMessage.forEach((line) => console.error(line));
+  process.exit(1);
+}
+
 const country = process.argv[2].toUpperCase();
-const countryID = countryCodes[country];
+const countryID = idOfCountry[country];
 
 if (countryID === undefined) {
-  console.error(`bad country code:  ${country}`);
+  errorMessage.forEach((line) => console.error(line));
   process.exit(1);
 }
 
@@ -83,4 +98,5 @@ axios.get('https://nordvpn.com/wp-admin/admin-ajax.php', {
     // limit: 9999,
   },
 })
-  .then((res) => console.log(res.data[0].hostname));
+  .then((res) => res.data[0].hostname)
+  .then((sr) => console.log(sr));
