@@ -16,6 +16,7 @@ const countryOfCity = {
   oslo: 'NO',
   warsaw: 'PL',
   stockholm: 'SE',
+  taipei: 'TW',
   london: 'UK',
 };
 
