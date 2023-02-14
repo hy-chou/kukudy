@@ -249,6 +249,44 @@ bookvpnbycountry.sh connects with a VPN server in COUNTRY, collects at least CHA
 >
 > </p></details>
 
+### utils/getConfigIDByCountry.js
+
+```bash
+node getConfigIDByCountry.js COUNTRY
+```
+
+>`COUNTRY` is a ISO 3166-1 alpha-2 code.
+
+getConfigIDByCountry.js gives the config ID of a VPN server in COUNTRY.
+
+> <details><summary>example</summary><p>
+>
+> To get a config ID of a VPN server in Taiwan, run
+>
+> ```bash
+> node getConfigIDByCountry.js TW
+> ```
+>
+> </p></details>
+
+### utils/getConfigIDByCity.js
+
+```bash
+node getConfigIDByCity.js CITY
+```
+
+getConfigIDByCity.js gives the config ID of a VPN server in CITY.
+
+> <details><summary>example</summary><p>
+>
+> To get a config ID of a VPN server in Taipei, run
+>
+> ```bash
+> node getConfigIDByCity.js taipei
+> ```
+>
+> </p></details>
+
 ## VPN guide
 
 This tutorial shows kukudy users a way to set up the environment in order to access the VPN service provided by NordVPN.
