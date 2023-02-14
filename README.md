@@ -58,7 +58,7 @@ Note that an access token expires in about two months, and if you do not get a n
 
 ## Quick start guide
 
-This tutorial, designed for first-time kukudy users, provides descriptions of the fundamental scripts inside `kukudy/`.
+This quick start guide, designed for first-time kukudy users, provides descriptions of the fundamental scripts inside `kukudy/`.
 
 Before we start, go to the `kukudy/` directory and do the following steps:
 
@@ -73,9 +73,11 @@ Let's go!
 node ../updateStreams.js [NUMBER_OF_CHANNELS]
 ```
 
-- `NUMBER_OF_CHANNELS` is 100 by default.
+> `NUMBER_OF_CHANNELS` is 100 by default.
 
 The `updateStreams.js` script uses Twitch API's [Get Streams](https://dev.twitch.tv/docs/api/reference/#get-streams) to get a list of active streams, which is in descending order by the number of viewers watching the stream.
+
+<details><summary>data format</summary><p>
 
 The data is stored in two formats inside two directories, `ulgs/` and `dump/getStreams/`.
 
@@ -101,17 +103,19 @@ Each line has five tab-separated elements:
 4. HTTP headers (json)
 5. HTTP body (json) - the raw response from the Get Streams API.
 
+</p></details>
+
 ### 2. updateEdges.js (Deprecated since v1.1.0)
 
 > **Deprecated:** This script is no longer recommended.
->
-> <details><summary>CLICK ME</summary>
 >
 > ```bash
 > node ../updateEdges.js
 > ```
 >
 > The `updateEdges.js` script reads the latest stream list inside `ulgs/` to get the hostnames of the edge servers distributing the streams in the list.
+>
+> <details><summary>data format</summary><p>
 >
 > The data is stored in two formats inside two directories, `edgs/` and `dump/getVEH/`.
 >
@@ -141,7 +145,7 @@ Each line has five tab-separated elements:
 > 4. HTTP headers (json)
 > 5. HTTP body (json)
 >
-> </details>
+> </p></details>
 
 ### 2.1 updateInfo.js
 
@@ -150,6 +154,8 @@ node ../updateInfo.js
 ```
 
 The `updateInfo.js` script reads the latest stream list inside `ulgs/` to get information of the edge servers distributing the streams in the list.
+
+<details><summary>data format</summary><p>
 
 The data is stored in two formats inside three directories, `info/`, `dumps/reqPlaybackAccessToken/` and `dumps/reqUsherM3U8/`.
 
@@ -179,7 +185,11 @@ Each line has five tab-separated elements:
 4. HTTP headers (json)
 5. HTTP body (json) - the raw response from the Get Streams API.
 
-### 3. scripts/book.sh
+</p></details>
+
+## Intermediate Tutorials
+
+### scripts/book.sh
 
 ```bash
 bash book.sh TARGET_DIR CHANNEL_COUNT ROUND_COUNT
@@ -187,13 +197,17 @@ bash book.sh TARGET_DIR CHANNEL_COUNT ROUND_COUNT
 
 book.sh collects at least CHANNEL_COUNT channels for ROUND_COUNT rounds and stores the data inside the `kukudy/TARGET_DIR/` directory.
 
-> For example, to collect 1000 channels for three times and store the data inside the `kukudy/playground/` directory, run
+> <details><summary>example</summary><p>
+>
+> To collect 1000 channels for three times and store the data inside the `kukudy/playground/` directory, run
 >
 > ```bash
 > bash book.sh playground 1000 3
 > ```
+>
+> </p></details>
 
-### 4. scripts/bookvpn.sh
+### scripts/bookvpn.sh
 
 ```bash
 sudo bash bookvpn.sh TARGET_DIR CHANNEL_COUNT CONFIG_ID ...
@@ -201,31 +215,39 @@ sudo bash bookvpn.sh TARGET_DIR CHANNEL_COUNT CONFIG_ID ...
 
 bookvpn.sh connects to the VPN server whose id is CONFIG_ID, collects at least CHANNEL_COUNT channels and stores the data inside the `kukudy/TARGET_DIR/` directory.
 
-> For example, to collect 1000 channels and store the data inside `kukudy/playground/` while connecting to tw168.nordvpn.com , run
+> <details><summary>example</summary><p>
+>
+> To collect 1000 channels and store the data inside `kukudy/playground/` while connecting to tw168.nordvpn.com , run
 >
 > ```bash
 > sudo bash bookvpn.sh playground 1000 tw168
 > ```
 >
 > For beginners, read the [VPN guide](#VPN-guide) below to set up the envoronment first.
+>
+> </p></details>
 
-### 5. scripts/bookvpnbycountry.sh
+### scripts/bookvpnbycountry.sh
 
 ```bash
 sudo bash bookvpnbycountry.sh TARGET_DIR CHANNEL_COUNT COUNTRY...
 ```
 
-- `COUNTRY...` are ISO 3166-1 alpha-2 codes.
+>`COUNTRY...` are ISO 3166-1 alpha-2 codes.
 
 bookvpnbycountry.sh connects with a VPN server in COUNTRY, collects at least CHANNEL_COUNT channels and stores the data inside the `kukudy/TARGET_DIR/` directory.
 
-> For example, to collect 1000 channels and store the data inside `kukudy/playground/` while connecting to a VPN server in Taiwan , run
+> <details><summary>example</summary><p>
+>
+> To collect 1000 channels and store the data inside `kukudy/playground/` while connecting to a VPN server in Taiwan , run
 >
 > ```bash
 > sudo bash bookvpnbycountry.sh playground 1000 TW
 > ```
 >
 > For beginners, read the [VPN guide](#VPN-guide) below to set up the envoronment first.
+>
+> </p></details>
 
 ## VPN guide
 
@@ -265,7 +287,7 @@ Download the latest server list by running
 wget https://downloads.nordcdn.com/configs/archives/servers/
 ```
 
-Unzip the `ovpn.zip` file by running 
+Unzip the `ovpn.zip` file by running
 
 ```bash
 unzip ovpn.zip
@@ -332,9 +354,7 @@ DIR_K=...
 ```
 
 > Set the PATH variable to the string you see running `echo $PATH`.
-
 > Set the DIR_K variable to the absolute path to the `kukudy` directory, i.e. what you see running `pwd` inside `kukudy/`.
-
 > Replace USER with your user name, i.e. the string you see running `echo $USER`.
 
 By doing so, book.sh is scheduled to run every day at 03:14 (local time).
