@@ -1,15 +1,15 @@
 #!/bin/bash
 
 if ! [[ $# -ge 3 && $2 =~ ^[0-9]+$ ]] ; then
-    echo -e "
+    echo "bookvpnbycountry.sh: invalid input \"$*\"
+
 SYNOPSIS
     sudo bash bookvpnbycountry.sh TARGET_DIR CHANNEL_COUNT COUNTRY...
 
 DESCRIPTION
     bookvpnbycountry.sh connects with the server in COUNTRY, collects at least
     CHANNEL_COUNT channels and stores the data inside the kukudy/TARGET_DIR/
-    directory.
-"
+    directory." >&2
     exit 1
 fi
 
