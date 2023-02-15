@@ -99,9 +99,28 @@ Each line has five tab-separated elements:
 
 1. timestamp - sent time
 2. timestamp - received time
-3. ...
-4. HTTP headers (json)
-5. HTTP body (json) - the raw response from the Get Streams API.
+3. cursor
+4. HTTP headers (json) - all value are strings
+    ```json
+    {
+      "connection": string,
+      "content-type": string,
+      "access-control-allow-origin": string,
+      "ratelimit-limit": digits,
+      "ratelimit-remaining": digits,
+      "ratelimit-reset": digits,
+      "timing-allow-origin": string,
+      "date": string,
+      "x-served-by": string,
+      "x-cache": string,
+      "x-cache-hits": string,
+      "x-timer": string,
+      "vary": string,
+      "strict-transport-security": string,
+      "transfer-encoding": string,
+    }
+    ```
+5. HTTP body (json) - Get Streams API [reference](https://dev.twitch.tv/docs/api/reference/#get-streams)
 
 </p></details>
 
@@ -169,21 +188,97 @@ Each line has three tab-separated elements:
 
 1. timestamp
 2. user login
-3. info / error (json) - NODE, etc.
+3. info (json) - all value are strings
+    ```json
+    {
+      "NODE": "video-edge-" + six hexes + "." + IATA airport code + two digits,
+      "MANIFEST-NODE-TYPE": "weaver_cluster",
+      "MANIFEST-NODE": "video-weaver." + IATA airport code + two digits,
+      "SUPPRESS": boolean,
+      "SERVER-TIME": float,
+      "TRANSCODESTACK": string,
+      "USER-IP": IPv4 dot-decimal form,
+      "SERVING-ID": hexes,
+      "CLUSTER": IATA airport code + two digits,
+      "ABS": boolean,
+      "VIDEO-SESSION-ID": digits,
+      "BROADCAST-ID": digits,
+      "STREAM-TIME": float,
+      "B": boolean,
+      "USER-COUNTRY": ISO 3166-1 alpha-2 code,
+      "MANIFEST-CLUSTER": IATA airport code + two digits,
+      "ORIGIN": IATA airport code + two digits,
+      "C": string,
+      "D": boolean,
+    }
+    ```
 
-#### DUMPS/REQPLAYBACKACCESSTOKEN/ and DUMPS/REQUSHERM3U8/
+#### DUMPS/REQPLAYBACKACCESSTOKEN/
 
-Inside the directories, `dumps/reqPlaybackAccessToken/` and `dumps/reqUsherM3U8/`, are `.tsv` files.
+Inside the `dumps/reqPlaybackAccessToken/` directory are `.tsv` files.
 
-Each filename is the time `updateInfo.js` starts running in UTC.
+Each filename is the UTC time shortly after `updateInfo.js` starts running.
+
+Each line has five tab-separated elements:
+
+1. timestamp - sent time
+2. timestamp - received time
+3. user login
+4. HTTP headers (json) - all value are strings
+    ```json
+    {
+      "connection": string,
+      "content-length": string,
+      "content-type": string,
+      "access-control-allow-origin": string,
+      "date": string,
+    }
+    ```
+5. HTTP body (json)
+    ```json
+    {
+      "data": {
+        "streamPlaybackAccessToken": {
+          "value": string, // of a json object
+          "signature": string,
+          "__typename": string,
+        }
+      },
+      "extensions": {
+        "durationMilliseconds": Number,
+        "operationName": string,
+        "requestID": string,
+      }
+    }
+    ```
+
+#### DUMPS/REQUSHERM3U8/
+
+Inside the `dumps/reqUsherM3U8/` directory are `.tsv` files.
+
+Each filename is the UTC time shortly after `updateInfo.js` starts running.
 
 Each line has five tab-separated elements:
 
 1. timestamp - sent time
 2. timestamp - received time
 3. ...
-4. HTTP headers (json)
-5. HTTP body (json) - the raw response from the Get Streams API.
+4. HTTP headers (json) - all value are strings
+    ```json
+    {
+      "content-type": string,
+      "content-length": string,
+      "connection": string,
+      "vary": string,
+      "date": string,
+      "x-amzn-trace-id": string,
+      "x-cache": string,
+      "via": string,
+      "x-amz-cf-pop": string,
+      "x-amz-cf-id": string,
+    }
+    ```
+5. HTTP body (m3u8)
 
 </p></details>
 
