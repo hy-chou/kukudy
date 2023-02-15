@@ -24,8 +24,7 @@ CONFIG_IDS=( "$@" )
 mkdir -p "${TARGET_DIR}" || exit 1
 cd "${TARGET_DIR}" || exit 1
 
-for CONFIG_ID in "${CONFIG_IDS[@]}"
-do
+for CONFIG_ID in "${CONFIG_IDS[@]}" ; do
     CONFIG_FILE="$CONFIG_ID".nordvpn.com.udp.ovpn
     [[ -f ../nordvpn/ovpn_udp/"$CONFIG_FILE" ]] || continue
 

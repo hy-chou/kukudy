@@ -21,8 +21,7 @@ ROUND_COUNT=$3
 mkdir -p "${TARGET_DIR}" || exit 1
 cd "${TARGET_DIR}" || exit 1
 
-for _ in $(seq "${ROUND_COUNT}")
-do
+for _ in $(seq "${ROUND_COUNT}") ; do
     node ../updateStreams.js "${CHANNEL_COUNT}"
     node ../updateInfo.js
 done

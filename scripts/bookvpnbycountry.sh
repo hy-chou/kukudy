@@ -24,8 +24,7 @@ COUNTRIES=( "$@" )
 mkdir -p "${TARGET_DIR}" || exit 1
 cd "${TARGET_DIR}" || exit 1
 
-for COUNTRY in "${COUNTRIES[@]}"
-do
+for COUNTRY in "${COUNTRIES[@]}" ; do
     CONFIG_FILE=$(node ../utils/getConfigIDByCountry.js "$COUNTRY").udp.ovpn;
 
     [[ -f ../nordvpn/ovpn_udp/${CONFIG_FILE} ]] || continue
