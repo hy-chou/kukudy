@@ -84,6 +84,8 @@ const country = process.argv[2].toUpperCase();
 const countryID = idOfCountry[country];
 
 if (countryID === undefined) {
+  console.error(`${new Date().toISOString()}\t`
+                + `getConfigIDByCountry.js: invalid argument "${process.argv[2]}"`);
   errorMessage.forEach((line) => console.error(line));
   process.exit(1);
 }

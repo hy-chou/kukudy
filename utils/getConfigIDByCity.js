@@ -103,6 +103,8 @@ const city = process.argv[2].toLowerCase();
 const country = countryOfCity[city];
 
 if (country === undefined) {
+  console.error(`${new Date().toISOString()}\t`
+                + `getConfigIDByCity.js: invalid argument "${process.argv[2]}"`);
   errorMessage.forEach((line) => console.error(line));
   process.exit(1);
 }
