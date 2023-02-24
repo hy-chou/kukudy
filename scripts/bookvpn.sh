@@ -38,10 +38,13 @@ for CONFIG_ID in "${CONFIG_IDS[@]}" ; do
     bash ../scripts/sleepUntilConnected.sh || continue
     echo -en "$(date -u +"%FT%TZ")\t${CONFIG_FILE} connected\n"
 
-    echo -en "$(date -u +"%FT%TZ")\tuSuI starting\n"
+    echo -en "$(date -u +"%FT%TZ")\tuS starting\n"
     node ../updateStreams.js "${CHANNEL_COUNT}"
+    echo -en "$(date -u +"%FT%TZ")\tuS ended\n"
+
+    echo -en "$(date -u +"%FT%TZ")\tuI starting\n"
     node ../updateInfo.js
-    echo -en "$(date -u +"%FT%TZ")\tuSuI ended\n"
+    echo -en "$(date -u +"%FT%TZ")\tuI ended\n"
 
     kill "$(cat ../nordvpn/pid.txt)"
     bash ../scripts/sleepUntilDisconnected.sh
