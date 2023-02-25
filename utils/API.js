@@ -29,13 +29,29 @@ kaxios.interceptors.response.use(
   async (error) => {
     const ts2 = getTS();
     const { method, param, ts1 } = error.config.kukudy;
+    const dumpsEPath = `./dumps/E${method}/${tsZ}.tsv`;
 
-    writeData(
-      `./errs/${tsZ}.tsv`,
-      `${ts1}\t${ts2}\t${method}\t${param}\t`
-      + `${error.code}\t${error.message}\n`,
-    );
-    return Promise.reject(error);
+    if (error.response) {
+      writeData(
+        dumpsEPath,
+        `${ts1}\t${ts2}\t${param}\t${error.code}\t${error.message}\t`
+        + `${JSON.stringify(error.response.data)}\t`
+        + `${JSON.stringify(error.response.status)}\t`
+        + `${JSON.stringify(error.response.headers)}\n`,
+      );
+    } else if (error.request) {
+      writeData(
+        dumpsEPath,
+        `${ts1}\t${ts2}\t${param}\t${error.code}\t${error.message}\t`
+        + `${JSON.stringify(error.request)}\n`,
+      );
+    } else {
+      writeData(
+        dumpsEPath,
+        `${ts1}\t${ts2}\t${param}\t${error.code}\t${error.message}\n`,
+      );
+    }
+    return Promise.reject(error.code);
   },
 );
 

@@ -22,14 +22,8 @@ const getEdgeInfo = async (userLogin) => {
     const info = parseExtXTwitchInfo(resUsher.data);
 
     return info;
-  } catch (error) {
-    if (error.response) {
-      return {
-        headers: error.response.headers,
-        data: error.response.data,
-      };
-    }
-    return error.message;
+  } catch (errorCode) {
+    return errorCode;
   }
 };
 
