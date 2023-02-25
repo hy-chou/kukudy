@@ -4,25 +4,25 @@ if ! [[ $# -ge 3 && $2 =~ ^[0-9]+$ ]] ; then
     echo "bookvpnbycountry.sh: invalid input \"$*\"
 
 SYNOPSIS
-    sudo bash bookvpnbycountry.sh TARGET_DIR CHANNEL_COUNT COUNTRY...
+    sudo bash bookvpnbycountry.sh DIRECTORY CHANNEL_COUNT COUNTRY...
 
 DESCRIPTION
-    bookvpnbycountry.sh connects with the server in COUNTRY, collects at least
-    CHANNEL_COUNT channels and stores the data inside the kukudy/TARGET_DIR/
-    directory." >&2
+    bookvpnbycountry.sh connects to the VPN server(s) in the COUNTRY(ies)
+    consecutively, collects at least CHANNEL_COUNT channels and stores the data
+    inside the DIRECTORY under the kukudy/ directory." >&2
     exit 1
 fi
 
 cd "$(dirname "$0")/.." || exit 1
 
-TARGET_DIR=$1
+DIRECTORY=$1
 CHANNEL_COUNT=$2
 shift
 shift
 COUNTRIES=( "$@" )
 
-mkdir -p "${TARGET_DIR}" || exit 1
-cd "${TARGET_DIR}" || exit 1
+mkdir -p "${DIRECTORY}" || exit 1
+cd "${DIRECTORY}" || exit 1
 
 {
 for COUNTRY in "${COUNTRIES[@]}" ; do

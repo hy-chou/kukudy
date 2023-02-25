@@ -56,9 +56,9 @@ Replace the Access Token in `.env` file with yours.
 
 Note that an access token expires in about two months, and if you do not get a new one, every request to Twitch API would return an HTTP error code 401. We recommend getting a new one every month.
 
-## Quick start guide
+## Introductory Tutorials
 
-This quick start guide, designed for first-time kukudy users, provides descriptions of the fundamental scripts inside `kukudy/`.
+These tutorials, designed for first-time kukudy users, provides descriptions of the fundamental scripts inside `kukudy/`.
 
 Before we start, go to the `kukudy/` directory and do the following steps:
 
@@ -281,65 +281,83 @@ Each line has five tab-separated elements:
 
 </p></details>
 
-## Intermediate Tutorials
+## Intermediate Tutorial
 
 ### scripts/book.sh
 
 ```bash
-bash book.sh TARGET_DIR CHANNEL_COUNT ROUND_COUNT
+bash book.sh DIRECTORY CHANNEL_COUNT
 ```
 
-book.sh collects at least CHANNEL_COUNT channels for ROUND_COUNT rounds and stores the data inside the `kukudy/TARGET_DIR/` directory.
+book.sh collects at least CHANNEL_COUNT channels and stores the data inside the DIRECTORY under the `kukudy/` directory.
 
 > <details><summary>example</summary><p>
 >
-> To collect 1000 channels for three times and store the data inside the `kukudy/playground/` directory, run
+> To collect 100 channels and store the data inside the `kukudy/playground/` directory, run
 >
 > ```bash
-> bash book.sh playground 1000 3
+> bash book.sh playground 100
 > ```
 >
 > </p></details>
 
+## Advanced Tutorials
+
+For beginners, read the [VPN guide](#VPN-guide) below to set up the envoronment first.
+
 ### scripts/bookvpn.sh
 
 ```bash
-sudo bash bookvpn.sh TARGET_DIR CHANNEL_COUNT CONFIG_ID ...
+sudo bash bookvpn.sh DIRECTORY CHANNEL_COUNT CONFIG_ID...
 ```
 
-bookvpn.sh connects to the VPN server whose id is CONFIG_ID, collects at least CHANNEL_COUNT channels and stores the data inside the `kukudy/TARGET_DIR/` directory.
+bookvpn.sh connects to the VPN server(s) with CONFIG_ID(s) consecutively, collects at least CHANNEL_COUNT channels and stores the data inside the DIRECTORY under the `kukudy/` directory.
 
 > <details><summary>example</summary><p>
 >
-> To collect 1000 channels and store the data inside `kukudy/playground/` while connecting to tw168.nordvpn.com , run
+> To connect to tw168.nordvpn.com and us9487.nordvpn.com consecutively to collect 100 channels and store the data inside `kukudy/playground/`, run
 >
 > ```bash
-> sudo bash bookvpn.sh playground 1000 tw168
+> sudo bash bookvpn.sh playground 100 tw168 us9487
 > ```
->
-> For beginners, read the [VPN guide](#VPN-guide) below to set up the envoronment first.
 >
 > </p></details>
 
 ### scripts/bookvpnbycountry.sh
 
 ```bash
-sudo bash bookvpnbycountry.sh TARGET_DIR CHANNEL_COUNT COUNTRY...
+sudo bash bookvpnbycountry.sh DIRECTORY CHANNEL_COUNT COUNTRY...
 ```
 
-> `COUNTRY...` are ISO 3166-1 alpha-2 codes.
+> Use ISO 3166-1 alpha-2 codes for `COUNTRY...`.
 
-bookvpnbycountry.sh connects with a VPN server in COUNTRY, collects at least CHANNEL_COUNT channels and stores the data inside the `kukudy/TARGET_DIR/` directory.
+bookvpnbycountry.sh connects to the VPN server(s) in the COUNTRY(ies) consecutively, collects at least CHANNEL_COUNT channels and stores the data inside the DIRECTORY under the `kukudy/` directory.
 
 > <details><summary>example</summary><p>
 >
-> To collect 1000 channels and store the data inside `kukudy/playground/` while connecting to a VPN server in Taiwan , run
+> To connect to VPNs in Taiwan and the United States consecutively to collect 100 channels and store the data inside `kukudy/playground/`, run
 >
 > ```bash
-> sudo bash bookvpnbycountry.sh playground 1000 TW
+> sudo bash bookvpnbycountry.sh playground 100 TW US
 > ```
 >
-> For beginners, read the [VPN guide](#VPN-guide) below to set up the envoronment first.
+> </p></details>
+
+### scripts/bookvpnbycity.sh
+
+```bash
+sudo bash bookvpnbycity.sh DIRECTORY CHANNEL_COUNT CITY...
+```
+
+bookvpnbycity.sh connects to the VPN server(s) in the CITY(ies) consecutively, collects at least CHANNEL_COUNT channels and stores the data inside the DIRECTORY under the `kukudy/` directory.
+
+> <details><summary>example</summary><p>
+>
+> To connect to VPNs in Taipei and London consecutively to collect 100 channels and store the data inside `kukudy/playground/`, run
+>
+> ```bash
+> sudo bash bookvpnbycity.sh playground 100 Taipei London
+> ```
 >
 > </p></details>
 
@@ -349,7 +367,7 @@ bookvpnbycountry.sh connects with a VPN server in COUNTRY, collects at least CHA
 node getConfigIDByCountry.js COUNTRY
 ```
 
-> `COUNTRY` is a ISO 3166-1 alpha-2 code.
+> Use ISO 3166-1 alpha-2 codes for `COUNTRY`.
 
 getConfigIDByCountry.js gives the config ID of a VPN server in COUNTRY.
 
@@ -376,7 +394,7 @@ getConfigIDByCity.js gives the config ID of a VPN server in CITY.
 > To get a config ID of a VPN server in Taipei, run
 >
 > ```bash
-> node getConfigIDByCity.js taipei
+> node getConfigIDByCity.js Taipei
 > ```
 >
 > </p></details>
