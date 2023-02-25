@@ -209,6 +209,47 @@ Each line has five tab-separated elements:
      }
    }
    ```
+   The `data.streamPlaybackAccessToken.value` object is a JSON string.
+   ```json
+   {
+     "adblock": false,
+     "authorization": {
+       "forbidden": false,
+       "reason": ""
+     },
+     "blackout_enabled": false,
+     "channel": "",
+     "channel_id": 999999999,
+     "chansub": {
+       "restricted_bitrates": [],
+       "view_until": 9999999999
+     },
+     "ci_gb": false,
+     "geoblock_reason": "",
+     "device_id": null,
+     "expires": 9999999999,
+     "extended_history_allowed": false,
+     "game": "",
+     "hide_ads": false,
+     "https_required": true,
+     "mature": false,
+     "partner": false,
+     "platform": "web",
+     "player_type": "site",
+     "private": {
+       "allowed_to_view": true
+     },
+     "privileged": false,
+     "role": "",
+     "server_ads": true,
+     "show_ads": true,
+     "subscriber": false,
+     "turbo": false,
+     "user_id": null,
+     "user_ip": "{IPv4}",
+     "version": 2
+   }
+   ```
 
 #### DUMPS/REQUSHERM3U8/
 
@@ -220,7 +261,7 @@ Each line has five tab-separated elements:
 
 1. timestamp - sent time
 2. timestamp - received time
-3. ...
+3. user login
 4. HTTP headers (json) - all value are strings
    ```json
    {
