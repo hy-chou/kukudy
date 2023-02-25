@@ -39,9 +39,14 @@ for COUNTRY in "${COUNTRIES[@]}" ; do
     bash ../scripts/sleepUntilConnected.sh || continue
     echo -en "$(date -u +"%FT%TZ")\t${CONFIG_FILE} of ${COUNTRY} connected\n"
 
-    echo -en "$(date -u +"%FT%TZ")\tuS starting\n"
-    node ../updateStreams.js "${CHANNEL_COUNT}"
-    echo -en "$(date -u +"%FT%TZ")\tuS ended\n"
+    TS_NOW=$(date +"%s")
+    TS_LAST_US=$(stat --format="%Y" ./ulgs 2> /dev/null || echo 0)
+
+    if [[ $(( TS_NOW - TS_LAST_US )) -ge $(( 10 * 60 )) ]] ; then
+        echo -en "$(date -u +"%FT%TZ")\tuS starting\n"
+        node ../updateStreams.js "${CHANNEL_COUNT}"
+        echo -en "$(date -u +"%FT%TZ")\tuS ended\n"
+    fi
 
     echo -en "$(date -u +"%FT%TZ")\tuI starting\n"
     node ../updateInfo.js
