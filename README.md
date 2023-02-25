@@ -124,49 +124,7 @@ Each line has five tab-separated elements:
 
 </p></details>
 
-### 2. updateEdges.js (Deprecated since v1.1.0)
-
-> **Deprecated:** This script is no longer recommended.
->
-> ```bash
-> node ../updateEdges.js
-> ```
->
-> The `updateEdges.js` script reads the latest stream list inside `ulgs/` to get the hostnames of the edge servers distributing the streams in the list.
->
-> <details><summary>data format</summary><p>
->
-> The data is stored in two formats inside two directories, `edgs/` and `dump/getVEH/`.
->
-> #### EDGS/
->
-> Inside `edgs/` are `.tsv` files.
->
-> Each filename is the time `updateEdges.js` starts running in UTC.
->
-> Each line has three tab-separated elements:
->
-> 1. timestamp
-> 2. response - either a hostname or an error message
-> 3. user login
->
-> #### DUMP/GETVEH/
->
-> Inside `dump/getVEH/` are `.tsv` files.
->
-> Each filename is the time `updateEdges.js` starts running in UTC.
->
-> Each line has five tab-separated elements:
->
-> 1. timestamp
-> 2. user login
-> 3. request type
-> 4. HTTP headers (json)
-> 5. HTTP body (json)
->
-> </p></details>
-
-### 2.1 updateInfo.js
+### 2. updateInfo.js
 
 ```bash
 node ../updateInfo.js
