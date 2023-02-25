@@ -27,7 +27,7 @@ The lines above are example credentials, except for the last line. So, let's get
 
 ### Client ID and Client Secret
 
-Sign up for a Twitch account, log in and go to [Twitch Developers' Console](https://dev.twitch.tv/console). Click on *Register Your Application* in the *Application* section, fill out the form and click *Create*. You should see your application in the *Application* section. Click on *Manage* and you should see your Client ID and Client Secret.
+Sign up for a Twitch account, log in and go to [Twitch Developers' Console](https://dev.twitch.tv/console). Click on _Register Your Application_ in the _Application_ section, fill out the form and click _Create_. You should see your application in the _Application_ section. Click on _Manage_ and you should see your Client ID and Client Secret.
 
 Replace the Client ID and Client Secret in the `.env` file with yours.
 
@@ -101,25 +101,25 @@ Each line has five tab-separated elements:
 2. timestamp - received time
 3. cursor
 4. HTTP headers (json) - all value are strings
-    ```json
-    {
-      "connection": "",                  // string
-      "content-type": "",                // string
-      "access-control-allow-origin": "", // string
-      "ratelimit-limit": "",             // digits
-      "ratelimit-remaining": "",         // digits
-      "ratelimit-reset": "",             // digits
-      "timing-allow-origin": "",         // string
-      "date": "",                        // string
-      "x-served-by": "",                 // string
-      "x-cache": "",                     // string
-      "x-cache-hits": "",                // string
-      "x-timer": "",                     // string
-      "vary": "",                        // string
-      "strict-transport-security": "",   // string
-      "transfer-encoding": "",           // string
-    }
-    ```
+   ```json
+   {
+     "connection": "",
+     "content-type": "",
+     "access-control-allow-origin": "",
+     "ratelimit-limit": "",
+     "ratelimit-remaining": "",
+     "ratelimit-reset": "",
+     "timing-allow-origin": "",
+     "date": "",
+     "x-served-by": "",
+     "x-cache": "",
+     "x-cache-hits": "",
+     "x-timer": "",
+     "vary": "",
+     "strict-transport-security": "",
+     "transfer-encoding": ""
+   }
+   ```
 5. HTTP body (json) - Get Streams API [reference](https://dev.twitch.tv/docs/api/reference/#get-streams)
 
 </p></details>
@@ -189,29 +189,29 @@ Each line has three tab-separated elements:
 1. timestamp
 2. user login
 3. info (json) - all value are strings
-    ```json
-    {
-      "NODE": "",             // "video-edge-" + six hexes + "." + IATA airport code + two digits
-      "MANIFEST-NODE-TYPE": "weaver_cluster",
-      "MANIFEST-NODE": "",    // "video-weaver." + IATA airport code + two digits
-      "SUPPRESS": "",         // boolean
-      "SERVER-TIME": "",      // float
-      "TRANSCODESTACK": "",   // string
-      "USER-IP": "",          // IPv4 dot-decimal form
-      "SERVING-ID": "",       // hexes
-      "CLUSTER": "",          // IATA airport code + two digits
-      "ABS": "",              // boolean
-      "VIDEO-SESSION-ID": "", // digits
-      "BROADCAST-ID": "",     // digits
-      "STREAM-TIME": "",      // float
-      "B": "",                // boolean
-      "USER-COUNTRY": "",     // ISO 3166-1 alpha-2 code
-      "MANIFEST-CLUSTER": "", // IATA airport code + two digits
-      "ORIGIN": "",           // IATA airport code + two digits
-      "C": "",                // string
-      "D": "",                // boolean
-    }
-    ```
+   ```json
+   {
+     "NODE": "video-edge-{six hexes}.{IATA airport code}{two digits}",
+     "MANIFEST-NODE-TYPE": "weaver_cluster",
+     "MANIFEST-NODE": "video-weaver.{IATA airport code}{two digits}",
+     "SUPPRESS": "",
+     "SERVER-TIME": "",
+     "TRANSCODESTACK": "",
+     "USER-IP": "{IPv4}",
+     "SERVING-ID": "",
+     "CLUSTER": "{IATA airport code}{two digits}",
+     "ABS": "",
+     "VIDEO-SESSION-ID": "",
+     "BROADCAST-ID": "",
+     "STREAM-TIME": "",
+     "B": "",
+     "USER-COUNTRY": "{ISO 3166-1 alpha-2 code}",
+     "MANIFEST-CLUSTER": "{IATA airport code}{two digits}",
+     "ORIGIN": "{IATA airport code}{two digits}",
+     "C": "",
+     "D": ""
+   }
+   ```
 
 #### DUMPS/REQPLAYBACKACCESSTOKEN/
 
@@ -225,32 +225,32 @@ Each line has five tab-separated elements:
 2. timestamp - received time
 3. user login
 4. HTTP headers (json) - all value are strings
-    ```json
-    {
-      "connection": "",                  // string
-      "content-length": "",              // string
-      "content-type": "",                // string
-      "access-control-allow-origin": "", // string
-      "date": "",                        // string
-    }
-    ```
+   ```json
+   {
+     "connection": "",
+     "content-length": "",
+     "content-type": "",
+     "access-control-allow-origin": "",
+     "date": ""
+   }
+   ```
 5. HTTP body (json)
-    ```json
-    {
-      "data": {
-        "streamPlaybackAccessToken": {
-          "value": "",              // string of a json object
-          "signature": "",          // string
-          "__typename": "",         // string
-        }
-      },
-      "extensions": {
-        "durationMilliseconds": "", // number
-        "operationName": "",        // string
-        "requestID": "",            // string
-      }
-    }
-    ```
+   ```json
+   {
+     "data": {
+       "streamPlaybackAccessToken": {
+         "value": "",
+         "signature": "",
+         "__typename": ""
+       }
+     },
+     "extensions": {
+       "durationMilliseconds": "",
+       "operationName": "",
+       "requestID": ""
+     }
+   }
+   ```
 
 #### DUMPS/REQUSHERM3U8/
 
@@ -264,20 +264,20 @@ Each line has five tab-separated elements:
 2. timestamp - received time
 3. ...
 4. HTTP headers (json) - all value are strings
-    ```json
-    {
-      "content-type": "",    // string
-      "content-length": "",  // string
-      "connection": "",      // string
-      "vary": "",            // string
-      "date": "",            // string
-      "x-amzn-trace-id": "", // string
-      "x-cache": "",         // string
-      "via": "",             // string
-      "x-amz-cf-pop": "",    // string
-      "x-amz-cf-id": "",     // string
-    }
-    ```
+   ```json
+   {
+     "content-type": "",
+     "content-length": "",
+     "connection": "",
+     "vary": "",
+     "date": "",
+     "x-amzn-trace-id": "",
+     "x-cache": "",
+     "via": "",
+     "x-amz-cf-pop": "",
+     "x-amz-cf-id": ""
+   }
+   ```
 5. HTTP body (m3u8)
 
 </p></details>
@@ -328,7 +328,7 @@ bookvpn.sh connects to the VPN server whose id is CONFIG_ID, collects at least C
 sudo bash bookvpnbycountry.sh TARGET_DIR CHANNEL_COUNT COUNTRY...
 ```
 
->`COUNTRY...` are ISO 3166-1 alpha-2 codes.
+> `COUNTRY...` are ISO 3166-1 alpha-2 codes.
 
 bookvpnbycountry.sh connects with a VPN server in COUNTRY, collects at least CHANNEL_COUNT channels and stores the data inside the `kukudy/TARGET_DIR/` directory.
 
@@ -350,7 +350,7 @@ bookvpnbycountry.sh connects with a VPN server in COUNTRY, collects at least CHA
 node getConfigIDByCountry.js COUNTRY
 ```
 
->`COUNTRY` is a ISO 3166-1 alpha-2 code.
+> `COUNTRY` is a ISO 3166-1 alpha-2 code.
 
 getConfigIDByCountry.js gives the config ID of a VPN server in COUNTRY.
 
@@ -406,7 +406,7 @@ eC4lqppwjdkZnM9V0MxpppZv
 
 The lines above are example credentials. Get your own credentials.
 
-Log in and go to [NordVPN's Dashboard](https://my.nordaccount.com/dashboard/nordvpn/). You should see your Username and Password in the *Service credentials (manual setup)* section.
+Log in and go to [NordVPN's Dashboard](https://my.nordaccount.com/dashboard/nordvpn/). You should see your Username and Password in the _Service credentials (manual setup)_ section.
 
 Replace the first line with your Username and the second line with your Password in the `auth.txt` file.
 
