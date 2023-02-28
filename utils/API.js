@@ -39,12 +39,6 @@ kaxios.interceptors.response.use(
         + `${JSON.stringify(error.response.status)}\t`
         + `${JSON.stringify(error.response.headers)}\n`,
       );
-    } else if (error.request) {
-      writeData(
-        dumpsEPath,
-        `${ts1}\t${ts2}\t${param}\t${error.code}\t${error.message}\t`
-        + `${JSON.stringify(error.request)}\n`,
-      );
     } else {
       writeData(
         dumpsEPath,
