@@ -283,6 +283,8 @@ Each line has five tab-separated elements:
 
 ## Intermediate Tutorial
 
+The scripts below cache the list of active streams for 10 minutes.
+
 ### scripts/book.sh
 
 ```bash
