@@ -54,7 +54,7 @@ The reply is in the json format.
 
 Replace the Access Token in `.env` file with yours.
 
-Note that an access token expires in about two months, and if you do not get a new one, every request to Twitch API would return an HTTP error code 401. We recommend getting a new one every month.
+Note that an access token expires in about two months, and if you do not get a new one, every request to Twitch API would return an HTTP error code 401. We recommend getting a new one every month. Check out the [Cron guide](#Cron-guide) for a possible solution.
 
 ## Introductory Tutorials
 
@@ -502,13 +502,13 @@ DIR_K=...
 # |  |  |  |  |
 # m h dom mon dow user command
 
-14 03 * * * USER bash ${DIR_K}/scripts/book.sh playground 100 1
+14 03 01 * * USER cd ${DIR_K}/utils && node updateEnv.js
 ```
 
 > Set the PATH variable to the string you see running `echo $PATH`.
 > Set the DIR_K variable to the absolute path to the `kukudy` directory, i.e. what you see running `pwd` inside `kukudy/`.
 > Replace USER with your user name, i.e. the string you see running `echo $USER`.
 
-By doing so, book.sh is scheduled to run every day at 03:14 (local time).
+By doing so, updateEnv.js is scheduled to run on the first day of each month at 03:14 (local time).
 
 For more information on the syntax of cron files, run `man 5 crontab`.
