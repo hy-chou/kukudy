@@ -54,5 +54,7 @@ for CONFIG_ID in "${CONFIG_IDS[@]}" ; do
     kill "$(cat ../nordvpn/pid.txt)"
     bash ../scripts/sleepUntilDisconnected.sh
     echo -en "$(date -u +"%FT%TZ")\t${CONFIG_FILE} disconnected\n"
+
+    sleep 25s
 done
 } >> log.out 2>> log.err

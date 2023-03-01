@@ -55,5 +55,7 @@ for CITY in "${CITIES[@]}" ; do
     kill "$(cat ../nordvpn/pid.txt)"
     bash ../scripts/sleepUntilDisconnected.sh
     echo -en "$(date -u +"%FT%TZ")\t${CONFIG_FILE} of ${CITY} disconnected\n"
+
+    sleep 25s
 done
 } >> log.out 2>> log.err
