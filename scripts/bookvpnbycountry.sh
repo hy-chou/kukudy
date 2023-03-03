@@ -30,31 +30,31 @@ for COUNTRY in "${COUNTRIES[@]}" ; do
 
     [[ -f ../nordvpn/ovpn_udp/${CONFIG_FILE} ]] || continue
 
-    echo -en "$(date -u +"%FT%TZ")\t${CONFIG_FILE} of ${COUNTRY} connecting\n"
+    echo -en "$(date -u +"%FT%T.%3NZ")\t${CONFIG_FILE} of ${COUNTRY} connecting\n"
     openvpn --config         "../nordvpn/ovpn_udp/${CONFIG_FILE}" \
             --auth-user-pass "../nordvpn/auth.txt"                \
             --writepid       "../nordvpn/pid.txt"                 \
             --log-append     "../nordvpn/log.txt"                 \
             --daemon
     bash ../scripts/sleepUntilConnected.sh || continue
-    echo -en "$(date -u +"%FT%TZ")\t${CONFIG_FILE} of ${COUNTRY} connected\n"
+    echo -en "$(date -u +"%FT%T.%3NZ")\t${CONFIG_FILE} of ${COUNTRY} connected\n"
 
     TS_NOW=$(date +"%s")
     TS_LAST_US=$(stat --format="%Y" ./ulgs 2> /dev/null || echo 0)
 
     if [[ $(( TS_NOW - TS_LAST_US )) -ge $(( 10 * 60 )) ]] ; then
-        echo -en "$(date -u +"%FT%TZ")\tuS starting\n"
+        echo -en "$(date -u +"%FT%T.%3NZ")\tuS starting\n"
         node ../updateStreams.js "${CHANNEL_COUNT}"
-        echo -en "$(date -u +"%FT%TZ")\tuS ended\n"
+        echo -en "$(date -u +"%FT%T.%3NZ")\tuS ended\n"
     fi
 
-    echo -en "$(date -u +"%FT%TZ")\tuI starting\n"
+    echo -en "$(date -u +"%FT%T.%3NZ")\tuI starting\n"
     node ../updateInfo.js
-    echo -en "$(date -u +"%FT%TZ")\tuI ended\n"
+    echo -en "$(date -u +"%FT%T.%3NZ")\tuI ended\n"
 
     kill "$(cat ../nordvpn/pid.txt)"
     bash ../scripts/sleepUntilDisconnected.sh
-    echo -en "$(date -u +"%FT%TZ")\t${CONFIG_FILE} of ${COUNTRY} disconnected\n"
+    echo -en "$(date -u +"%FT%T.%3NZ")\t${CONFIG_FILE} of ${COUNTRY} disconnected\n"
 
     sleep 25s
 done
