@@ -27,7 +27,7 @@ const getEdgeInfo = async (userLogin) => {
   }
 };
 
-const updateInfo = async () => {
+const updateInfo = async (targetCountry) => {
   const ts = getTS().replaceAll(':', '.');
   const infoPath = `./info/${ts}.tsv`;
 
@@ -38,10 +38,30 @@ const updateInfo = async () => {
 
     const info = await getEdgeInfo(userLogin);
 
+    if (targetCountry !== undefined && info['USER-COUNTRY'] !== undefined) {
+      if (info['USER-COUNTRY'] !== targetCountry) {
+        // eslint-disable-next-line no-console
+        console.error(`${getTS()}\t`
+          + `uI: want ${targetCountry}, `
+          + `get ${info['USER-COUNTRY']} ${info['USER-IP']} instead`);
+        process.exit(1);
+      }
+    }
+
     writeData(infoPath, `${getTS()}\t${userLogin}\t${JSON.stringify(info)}\n`);
   });
 };
 
 if (require.main === module) {
-  updateInfo();
+  const pargv = process.argv;
+
+  if (pargv.length === 2) {
+    updateInfo();
+  } else if (pargv.length === 3) {
+    let targetCountry = pargv[2].slice(0, 2).toUpperCase();
+
+    if (targetCountry === 'UK') targetCountry = 'GB';
+
+    updateInfo(targetCountry);
+  }
 }
