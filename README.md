@@ -436,7 +436,7 @@ Using the `openvpn` daemon, kukudy specifies the VPN server to connect to and th
 Download the latest server list by running
 
 ```bash
-wget https://downloads.nordcdn.com/configs/archives/servers/
+wget https://downloads.nordcdn.com/configs/archives/servers/ovpn.zip
 ```
 
 Unzip the `ovpn.zip` file by running
