@@ -13,31 +13,30 @@ DESCRIPTION
     exit 1
 fi
 
-cd "$(dirname "$0")/.." || exit 1
+init() {
+    cd "$(dirname "$0")/.." || exit 1
 
-DIRECTORY=$1
-CHANNEL_COUNT=$2
-shift
-shift
-CONFIG_IDS=( "$@" )
+    DIRECTORY=$1
+    CHANNEL_COUNT=$2
+    shift
+    shift
+    CONFIG_IDS=( "$@" )
 
-mkdir -p "${DIRECTORY}" || exit 1
-cd "${DIRECTORY}" || exit 1
+    mkdir -p "${DIRECTORY}" || exit 1
+    cd "${DIRECTORY}" || exit 1
+}
 
-{
-for CONFIG_ID in "${CONFIG_IDS[@]}" ; do
-    CONFIG_FILE="$CONFIG_ID".nordvpn.com.udp.ovpn
-    [[ -f ../nordvpn/ovpn_udp/"$CONFIG_FILE" ]] || continue
-
-    echo -en "$(date -u +"%FT%T.%3NZ")\t${CONFIG_FILE} connecting\n"
+connect() {
     openvpn --config         "../nordvpn/ovpn_udp/${CONFIG_FILE}" \
             --auth-user-pass "../nordvpn/auth.txt"                \
             --writepid       "../nordvpn/pid.txt"                 \
             --log-append     "../nordvpn/log.txt"                 \
-            --daemon
-    bash ../scripts/sleepUntilConnected.sh || continue
-    echo -en "$(date -u +"%FT%T.%3NZ")\t${CONFIG_FILE} connected\n"
+            --daemon &&
+    bash ../scripts/sleepUntilConnected.sh
+    echo "$?"
+}
 
+updateStreams() {
     TS_NOW=$(date +"%s")
     TS_LAST_US=$(stat --format="%Y" ./ulgs 2> /dev/null || echo 0)
 
@@ -46,15 +45,45 @@ for CONFIG_ID in "${CONFIG_IDS[@]}" ; do
         node ../updateStreams.js "${CHANNEL_COUNT}"
         echo -en "$(date -u +"%FT%T.%3NZ")\tuS ended\n"
     fi
+}
 
+updateInfo() {
     echo -en "$(date -u +"%FT%T.%3NZ")\tuI starting\n"
     node ../updateInfo.js
     echo -en "$(date -u +"%FT%T.%3NZ")\tuI ended\n"
+}
 
+disconnect() {
     kill "$(cat ../nordvpn/pid.txt)"
     bash ../scripts/sleepUntilDisconnected.sh
-    echo -en "$(date -u +"%FT%T.%3NZ")\t${CONFIG_FILE} disconnected\n"
+    echo "$?"
+}
 
-    sleep 25s
-done
-} >> log.out 2>> log.err
+main() {
+    init "$@"
+    {
+    for CONFIG_ID in "${CONFIG_IDS[@]}" ; do
+        CONFIG_FILE="${CONFIG_ID}".nordvpn.com.udp.ovpn
+        [[ -f ../nordvpn/ovpn_udp/"${CONFIG_FILE}" ]] || continue
+
+        echo -en "$(date -u +"%FT%T.%3NZ")\t${CONFIG_FILE} connecting\n"
+        if [[ "$(connect)" -eq 0 ]] ; then
+            echo -en "$(date -u +"%FT%T.%3NZ")\t${CONFIG_FILE} connected\n"
+
+            updateStreams
+            updateInfo
+
+            if [[ "$(disconnect)" -eq 0 ]] ; then
+                echo -en "$(date -u +"%FT%T.%3NZ")\t${CONFIG_FILE} disconnected\n"
+            else
+                echo -en "$(date -u +"%FT%T.%3NZ")\t${CONFIG_FILE} not disconnected\n" >&2
+            fi
+        else
+            echo -en "$(date -u +"%FT%T.%3NZ")\t${CONFIG_FILE} not connected\n" >&2
+        fi
+        sleep 25s
+    done
+    } >> log.out 2>> log.err
+}
+
+main "$@"
