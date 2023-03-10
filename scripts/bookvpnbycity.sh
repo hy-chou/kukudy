@@ -54,7 +54,7 @@ updateInfo() {
 }
 
 disconnect() {
-    kill "$(cat ../nordvpn/pid.txt)"
+    killall openvpn
     bash ../scripts/sleepUntilDisconnected.sh
     echo "$?"
 }
