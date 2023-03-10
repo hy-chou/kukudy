@@ -8,6 +8,6 @@ do
     if [[ ${RES} == *'"status":false'* ]]; then
         exit 0
     fi
-    sleep "$R"
+    sleep "${R}"
 done
 exit 1
