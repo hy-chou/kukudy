@@ -15,6 +15,18 @@ DESCRIPTION
     exit 1
 fi
 
+trap '__cleanup SIGINT'  SIGINT
+trap '__cleanup SIGTERM' SIGTERM
+
+__cleanup ()
+{
+    SIGNAL=$1
+
+    echo -en "$(date -u +"%FT%T.%3NZ")\tgot ${SIGNAL}\n" >&2
+    killall openvpn
+    exit 1
+}
+
 init() {
     cd "$(dirname "$0")/.." || exit 1
 
