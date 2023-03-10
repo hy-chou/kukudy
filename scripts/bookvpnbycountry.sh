@@ -13,32 +13,30 @@ DESCRIPTION
     exit 1
 fi
 
-cd "$(dirname "$0")/.." || exit 1
+init() {
+    cd "$(dirname "$0")/.." || exit 1
 
-DIRECTORY=$1
-CHANNEL_COUNT=$2
-shift
-shift
-COUNTRIES=( "$@" )
+    DIRECTORY=$1
+    CHANNEL_COUNT=$2
+    shift
+    shift
+    COUNTRIES=( "$@" )
 
-mkdir -p "${DIRECTORY}" || exit 1
-cd "${DIRECTORY}" || exit 1
+    mkdir -p "${DIRECTORY}" || exit 1
+    cd "${DIRECTORY}" || exit 1
+}
 
-{
-for COUNTRY in "${COUNTRIES[@]}" ; do
-    CONFIG_FILE=$(node ../utils/getConfigIDByCountry.js "$COUNTRY").udp.ovpn;
-
-    [[ -f ../nordvpn/ovpn_udp/${CONFIG_FILE} ]] || continue
-
-    echo -en "$(date -u +"%FT%T.%3NZ")\t${CONFIG_FILE} of ${COUNTRY} connecting\n"
+connect() {
     openvpn --config         "../nordvpn/ovpn_udp/${CONFIG_FILE}" \
             --auth-user-pass "../nordvpn/auth.txt"                \
             --writepid       "../nordvpn/pid.txt"                 \
             --log-append     "../nordvpn/log.txt"                 \
-            --daemon
-    bash ../scripts/sleepUntilConnected.sh || continue
-    echo -en "$(date -u +"%FT%T.%3NZ")\t${CONFIG_FILE} of ${COUNTRY} connected\n"
+            --daemon &&
+    bash ../scripts/sleepUntilConnected.sh
+    echo "$?"
+}
 
+updateStreams() {
     TS_NOW=$(date +"%s")
     TS_LAST_US=$(stat --format="%Y" ./ulgs 2> /dev/null || echo 0)
 
@@ -47,15 +45,47 @@ for COUNTRY in "${COUNTRIES[@]}" ; do
         node ../updateStreams.js "${CHANNEL_COUNT}"
         echo -en "$(date -u +"%FT%T.%3NZ")\tuS ended\n"
     fi
+}
 
+updateInfo() {
     echo -en "$(date -u +"%FT%T.%3NZ")\tuI starting\n"
     node ../updateInfo.js
     echo -en "$(date -u +"%FT%T.%3NZ")\tuI ended\n"
+}
 
+disconnect() {
     kill "$(cat ../nordvpn/pid.txt)"
     bash ../scripts/sleepUntilDisconnected.sh
-    echo -en "$(date -u +"%FT%T.%3NZ")\t${CONFIG_FILE} of ${COUNTRY} disconnected\n"
+    echo "$?"
+}
 
-    sleep 25s
-done
-} >> log.out 2>> log.err
+main() {
+    init "$@"
+    {
+    for COUNTRY in "${COUNTRIES[@]}" ; do
+        echo -en "$(date -u +"%FT%T.%3NZ")\tcountry is ${COUNTRY}\n"
+        CONFIG_FILE=$(node ../utils/getConfigIDByCountry.js "${COUNTRY}").udp.ovpn;
+        [[ -f ../nordvpn/ovpn_udp/${CONFIG_FILE} ]] || continue
+        echo -en "$(date -u +"%FT%T.%3NZ")\tconfig file is ${CONFIG_FILE}\n"
+
+        echo -en "$(date -u +"%FT%T.%3NZ")\t${CONFIG_FILE} connecting\n"
+        if [[ "$(connect)" -eq 0 ]] ; then
+            echo -en "$(date -u +"%FT%T.%3NZ")\t${CONFIG_FILE} connected\n"
+
+            updateStreams
+            updateInfo
+
+            if [[ "$(disconnect)" -eq 0 ]] ; then
+                echo -en "$(date -u +"%FT%T.%3NZ")\t${CONFIG_FILE} disconnected\n"
+            else
+                echo -en "$(date -u +"%FT%T.%3NZ")\t${CONFIG_FILE} not disconnected\n" >&2
+            fi
+        else
+            echo -en "$(date -u +"%FT%T.%3NZ")\t${CONFIG_FILE} not connected\n" >&2
+        fi
+        sleep 25s
+    done
+    } >> log.out 2>> log.err
+}
+
+main "$@"

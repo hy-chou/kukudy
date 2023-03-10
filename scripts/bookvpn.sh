@@ -63,8 +63,10 @@ main() {
     init "$@"
     {
     for CONFIG_ID in "${CONFIG_IDS[@]}" ; do
+        echo -en "$(date -u +"%FT%T.%3NZ")\tconfig ID is ${CONFIG_ID}\n"
         CONFIG_FILE="${CONFIG_ID}".nordvpn.com.udp.ovpn
-        [[ -f ../nordvpn/ovpn_udp/"${CONFIG_FILE}" ]] || continue
+        [[ -f ../nordvpn/ovpn_udp/${CONFIG_FILE} ]] || continue
+        echo -en "$(date -u +"%FT%T.%3NZ")\tconfig file is ${CONFIG_FILE}\n"
 
         echo -en "$(date -u +"%FT%T.%3NZ")\t${CONFIG_FILE} connecting\n"
         if [[ "$(connect)" -eq 0 ]] ; then
