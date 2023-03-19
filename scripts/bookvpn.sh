@@ -86,15 +86,17 @@ main() {
 
             updateStreams
             updateInfo
-
-            if [[ "$(disconnect)" -eq 0 ]] ; then
-                echo -en "$(date -u +"%FT%T.%3NZ")\t${CONFIG_FILE} disconnected\n"
-            else
-                echo -en "$(date -u +"%FT%T.%3NZ")\t${CONFIG_FILE} not disconnected\n" >&2
-            fi
         else
             echo -en "$(date -u +"%FT%T.%3NZ")\t${CONFIG_FILE} not connected\n" >&2
         fi
+
+        echo -en "$(date -u +"%FT%T.%3NZ")\t${CONFIG_FILE} disconnecting\n"
+        if [[ "$(disconnect)" -eq 0 ]] ; then
+            echo -en "$(date -u +"%FT%T.%3NZ")\t${CONFIG_FILE} disconnected\n"
+        else
+            echo -en "$(date -u +"%FT%T.%3NZ")\t${CONFIG_FILE} not disconnected\n" >&2
+        fi
+
         sleep 25s
     done
     } >> log.out 2>> log.err
