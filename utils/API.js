@@ -20,9 +20,9 @@ kaxios.interceptors.response.use(
 
     writeData(
       `./dumps/${method}/${tsZ}.tsv`,
-      `${ts1}\t${ts2}\t${param}\t`
-      + `${JSON.stringify(response.headers)}\t`
-      + `${JSON.stringify(response.data)}\n`,
+      `${ts1}\t${ts2}\t${param}\t` +
+        `${JSON.stringify(response.headers)}\t` +
+        `${JSON.stringify(response.data)}\n`
     );
     return response;
   },
@@ -34,19 +34,19 @@ kaxios.interceptors.response.use(
     if (error.response) {
       writeData(
         dumpsEPath,
-        `${ts1}\t${ts2}\t${param}\t${error.code}\t${error.message}\t`
-        + `${JSON.stringify(error.response.data)}\t`
-        + `${JSON.stringify(error.response.status)}\t`
-        + `${JSON.stringify(error.response.headers)}\n`,
+        `${ts1}\t${ts2}\t${param}\t${error.code}\t${error.message}\t` +
+          `${JSON.stringify(error.response.data)}\t` +
+          `${JSON.stringify(error.response.status)}\t` +
+          `${JSON.stringify(error.response.headers)}\n`
       );
     } else {
       writeData(
         dumpsEPath,
-        `${ts1}\t${ts2}\t${param}\t${error.code}\t${error.message}\n`,
+        `${ts1}\t${ts2}\t${param}\t${error.code}\t${error.message}\n`
       );
     }
     return Promise.reject(error.code);
-  },
+  }
 );
 
 class KAPI {

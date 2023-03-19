@@ -2,7 +2,10 @@ const { readdir, readFile } = require('node:fs/promises');
 
 const KAPI = require('./utils/API');
 const {
-  getTS, writeData, sleep, parseExtXTwitchInfo,
+  getTS,
+  writeData,
+  sleep,
+  parseExtXTwitchInfo,
 } = require('./utils/utils');
 
 const loadUserLogins = async () => {
@@ -10,8 +13,9 @@ const loadUserLogins = async () => {
     .then((files) => files.at(-1))
     .catch(() => []);
 
-  return readFile(`./ulgs/${file}`, 'utf-8')
-    .then((content) => content.slice(0, -1).split('\n'));
+  return readFile(`./ulgs/${file}`, 'utf-8').then((content) =>
+    content.slice(0, -1).split('\n')
+  );
 };
 
 const getEdgeInfo = async (userLogin) => {
@@ -41,9 +45,11 @@ const updateInfo = async (targetCountry) => {
     if (targetCountry !== undefined && info['USER-COUNTRY'] !== undefined) {
       if (info['USER-COUNTRY'] !== targetCountry) {
         // eslint-disable-next-line no-console
-        console.error(`${getTS()}\t`
-          + `uI: want ${targetCountry}, `
-          + `get ${info['USER-COUNTRY']} ${info['USER-IP']} instead`);
+        console.error(
+          `${getTS()}\t` +
+            `uI: want ${targetCountry}, ` +
+            `get ${info['USER-COUNTRY']} ${info['USER-IP']} instead`
+        );
         process.exit(1);
       }
     }

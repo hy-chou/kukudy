@@ -181,7 +181,7 @@ const niceConfigIDs = new Set(
   'uk2219',
   'uk2254',
   'uk2302',
-  'uk2319',
+  'uk2319'
 );
 
 module.exports = { idOfCountry, countryOfCity, niceConfigIDs };

@@ -4,11 +4,12 @@ const { getTS, writeData } = require('./utils');
 require('dotenv').config({ path: '../.env' });
 
 if (require.main === module) {
-  axios.post('https://id.twitch.tv/oauth2/token', {
-    client_id: process.env.CLIENT_ID,
-    client_secret: process.env.CLIENT_SECRET,
-    grant_type: 'client_credentials',
-  })
+  axios
+    .post('https://id.twitch.tv/oauth2/token', {
+      client_id: process.env.CLIENT_ID,
+      client_secret: process.env.CLIENT_SECRET,
+      grant_type: 'client_credentials',
+    })
     .then((res) => res.data.access_token)
     .then(async (token) => {
       const ts = getTS();
