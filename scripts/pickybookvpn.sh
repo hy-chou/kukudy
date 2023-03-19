@@ -62,9 +62,13 @@ updateStreams() {
 }
 
 updateInfo() {
-    echo -en "$(date -u +"%FT%T.%3NZ")\tuI starting\n"
     node ../updateInfo.js "${CONFIG_ID}" && MATCH="TRUE" || STRIKE=$((STRIKE + 1))
-    echo -en "$(date -u +"%FT%T.%3NZ")\tuI ended\n"
+
+    if [[ ${MATCH} == "TRUE" ]] ; then
+        echo -en "$(date -u +"%FT%T.%3NZ")\tuI starting\n"
+        node ../updateInfo.js
+        echo -en "$(date -u +"%FT%T.%3NZ")\tuI ended\n"
+    fi
 }
 
 disconnect() {

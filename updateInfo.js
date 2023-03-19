@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 const { readdir, readFile } = require('node:fs/promises');
 
 const KAPI = require('./utils/API');
@@ -31,7 +32,7 @@ const getEdgeInfo = async (userLogin) => {
   }
 };
 
-const updateInfo = async (targetCountry) => {
+const updateInfo = async () => {
   const ts = getTS().replaceAll(':', '.');
   const infoPath = `./info/${ts}.tsv`;
 
@@ -42,20 +43,36 @@ const updateInfo = async (targetCountry) => {
 
     const info = await getEdgeInfo(userLogin);
 
-    if (targetCountry !== undefined && info['USER-COUNTRY'] !== undefined) {
-      if (info['USER-COUNTRY'] !== targetCountry) {
-        // eslint-disable-next-line no-console
-        console.error(
-          `${getTS()}\t` +
-            `uI: want ${targetCountry}, ` +
-            `get ${info['USER-COUNTRY']} ${info['USER-IP']} instead`
-        );
-        process.exit(1);
-      }
-    }
-
     writeData(infoPath, `${getTS()}\t${userLogin}\t${JSON.stringify(info)}\n`);
   });
+};
+
+const checkCountry = async (targetCountry) => {
+  let i = 0;
+  const userLogins = await loadUserLogins();
+
+  while (i < userLogins.length) {
+    // eslint-disable-next-line no-await-in-loop
+    const info = await getEdgeInfo(userLogins[i]);
+
+    const userCountry = info['USER-COUNTRY'];
+    const userIP = info['USER-IP'];
+
+    if (userCountry === undefined) {
+      i += 1;
+    } else {
+      if (userCountry === targetCountry) {
+        console.log(`${getTS()}\tcheckCountry: ${userCountry} (${userIP})`);
+      } else {
+        console.error(
+          `${getTS()}\t` +
+            `checkCountry: expect ${targetCountry}, get ${userCountry} instead (${userIP})`
+        );
+        process.exitCode = 1;
+      }
+      break;
+    }
+  }
 };
 
 if (require.main === module) {
@@ -68,6 +85,6 @@ if (require.main === module) {
 
     if (targetCountry === 'UK') targetCountry = 'GB';
 
-    updateInfo(targetCountry);
+    checkCountry(targetCountry);
   }
 }
