@@ -9,7 +9,7 @@ const { writeData, getTS } = require('./utils');
 const tsZ = getTS().replaceAll(':', '.');
 
 const kaxios = axios.create({
-  timeout: 150_000,
+  timeout: 60_000,
   httpsAgent: new https.Agent({ keepAlive: true }),
 });
 
