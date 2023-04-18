@@ -8,10 +8,12 @@ SYNOPSIS
 
 DESCRIPTION
     pickybookvpn.sh connects to the VPN server(s) with CONFIG_ID(s)
-    consecutively. For each round, it tries to make sure that it is recognized
-    as a user from the country specified in the CONFIG_ID. It collects at
-    least CHANNEL_COUNT channels and stores the data inside the DIRECTORY under
-    the kukudy/ directory." >&2
+    consecutively. In each round, it checks if the user country detected by
+    Twitch is the country of the CONFIG_ID. If they do not match, it
+    reconnects to the same CONFIG_ID and checks again. If it fails to be
+    correctly reconized for seven times, the current CONFIG_ID is skipped. It
+    collects at least CHANNEL_COUNT channels and stores the data inside the
+    DIRECTORY under the kukudy/ directory." >&2
     exit 1
 fi
 

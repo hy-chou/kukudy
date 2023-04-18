@@ -333,6 +333,14 @@ bookvpn.sh connects to the VPN server(s) with CONFIG_ID(s) consecutively, collec
 >
 > </p></details>
 
+### scripts/pickybookvpn.sh
+
+```bash
+sudo bash pickybookvpn.sh DIRECTORY CHANNEL_COUNT CONFIG_ID...
+```
+
+`pickybookvpn.sh` connects to the VPN server(s) with CONFIG_ID(s) consecutively. In each round, it checks if the user country detected by Twitch is the country of the CONFIG_ID. If they do not match, it reconnects to the same CONFIG_ID and checks again. If it fails to be correctly reconized for seven times, the current CONFIG_ID is skipped. It collects at least CHANNEL_COUNT channels and stores the data inside the DIRECTORY under the `kukudy/` directory.
+
 ### scripts/bookvpnbycountry.sh
 
 ```bash
