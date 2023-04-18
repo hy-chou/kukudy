@@ -307,6 +307,14 @@ book.sh collects at least CHANNEL_COUNT channels and stores the data inside the 
 
 For beginners, read the [VPN guide](#VPN-guide) below to set up the envoronment first.
 
+### updateInfo.js
+
+```bash
+node ../updateInfo.js TARGET_COUNTRY
+```
+
+The `updateInfo.js` script checks if TARGET_COUNTRY is the user country detected by Twitch. Exit status is 0 if they are the same, 1 if different, 2 otherwise.
+
 ### scripts/bookvpn.sh
 
 ```bash
