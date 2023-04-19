@@ -84,6 +84,7 @@ main() {
         if [[ "$(connect)" -eq 0 ]] ; then
             echo -en "$(date -u +"%FT%T.%3NZ")\t${CONFIG_FILE} connected\n"
 
+            node ../utils/lookup.js
             updateStreams
             updateInfo
         else

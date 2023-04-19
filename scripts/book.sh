@@ -42,6 +42,7 @@ updateInfo() {
 main() {
     init "$@"
     {
+        node ../utils/lookup.js
         updateStreams
         updateInfo
     } >> log.out 2>> log.err
